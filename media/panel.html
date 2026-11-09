@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-{{NONCE}}'; style-src {{CSP}}; font-src 'none'; connect-src 'none';" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{STYLE}}" />
+  <title>JSON Edge Case Maker</title>
+</head>
+<body>
+  <main>
+    <header class="page-header"><div><p class="eyebrow">JSON EDGE CASE MAKER <span class="version">0.1.1</span></p><h1>One good example.<br />More ways to test it.</h1><p class="subtitle">Create labelled input variations. Decide what your application should accept.</p></div><span class="local-badge">Local · no uploads</span></header>
+    <div id="status" class="status" role="status" aria-live="polite">Paste a JSON object to begin. No file required.</div>
+    <div class="workspace">
+      <section class="card input-card" aria-labelledby="input-heading">
+        <div class="section-heading"><h2 id="input-heading"><span class="step">1</span> Your example</h2><button id="load-editor" class="secondary">Load from Active Editor</button></div>
+        <label for="json-input">Example JSON</label><p class="hint" id="input-hint">Paste a request body, response, or fixture. JSON or object snippets. Use Format JSON to quote keys and replace expressions. Enter indents automatically. Maximum 1 MiB.</p>
+        <textarea id="json-input" spellcheck="false" aria-describedby="input-hint input-error" placeholder='{"name":"Alex","email":"alex@example.com"}'></textarea>
+        <div class="input-tools"><button id="format-input" class="secondary">Format JSON</button><button id="dummy-input" class="secondary" aria-describedby="dummy-hint">Fill dummy values</button></div>
+        <p id="dummy-hint" class="hint">Dummy values fill empty strings/nulls using field-name hints. Review inferred values and types.</p>
+        <p id="input-note" class="hint" aria-live="polite"></p>
+        <p id="input-error" class="error" role="alert"></p>
+        <div class="input-footer"><span id="input-summary">Object input · arrays stay whole</span><button id="sample" class="text-button">Try sample JSON</button></div>
+      </section>
+      <section class="card options-card" aria-labelledby="options-heading">
+        <div class="section-heading"><h2 id="options-heading"><span class="step">2</span> Choose variations</h2></div>
+        <div class="field-toolbar"><label for="field-search">Fields <span id="field-count" class="count">0</span></label><button id="select-fields" class="text-button" disabled>Select all</button></div>
+        <input id="field-search" type="search" placeholder="Find a property…" aria-label="Search field paths" />
+        <div id="fields" class="field-list"><p class="empty">Your fields will appear here.</p></div>
+        <fieldset id="mutations"><legend>Change one field at a time</legend>
+          <label class="choice"><input type="checkbox" value="missing" checked /><span>Missing field<small>Remove the property</small></span></label>
+          <label class="choice"><input type="checkbox" value="null" checked /><span>Null value<small>Replace with null</small></span></label>
+          <label class="choice"><input type="checkbox" value="empty" checked /><span>Empty value<small>Empty string, array, or object</small></span></label>
+          <label class="choice"><input type="checkbox" value="wrongType" checked /><span>Wrong type<small>Use a different JSON type</small></span></label>
+        </fieldset>
+        <button id="generate" class="primary" disabled>Generate edge cases</button>
+        <p class="hint">Each case changes one property in a fresh copy. Up to 250 cases.</p>
+      </section>
+    </div>
+    <section class="card results-card" aria-labelledby="results-heading">
+      <div class="section-heading"><h2 id="results-heading"><span class="step">3</span> Inspect & use <span id="result-count" class="count">0 cases</span></h2><div class="actions"><button id="select-cases" class="text-button" disabled>Select all</button><button id="export" class="secondary" disabled>Export selected</button></div></div>
+      <p id="result-summary" class="hint">Generate cases to preview and copy, or export them into your project.</p>
+      <div class="results-grid"><div id="cases" class="case-list"><p class="empty">Your generated cases will appear here.</p></div><div class="preview"><div class="preview-header"><h3 id="preview-title">JSON preview</h3><button id="copy" class="secondary" disabled>Copy JSON</button></div><p id="explanation" class="hint">Choose a case to inspect its full payload.</p><pre id="preview-json" tabindex="0" aria-label="Generated JSON preview"><code>{ }</code></pre></div></div>
+    </section>
+    <footer>Candidate inputs, not test verdicts. Send them through your API client or existing tests.</footer>
+  </main>
+  <script nonce="{{NONCE}}" src="{{SCRIPT}}"></script>
+</body>
+</html>
