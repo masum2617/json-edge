@@ -3,6 +3,7 @@ const path = require('node:path');
 const os = require('node:os');
 const cp = require('node:child_process');
 const manifest = require('../package.json');
+const { windowsCliEntry } = require('./vscode-cli.cjs');
 
 // Install the exact VSIX into a disposable profile, then test its installed files.
 (async () => {
@@ -15,6 +16,7 @@ const manifest = require('../package.json');
   const cli =
     require('@vscode/test-electron').resolveCliArgsFromVSCodeExecutablePath(
       executable,
+      { reuseMachineInstall: true }, // Supply only our disposable profile below.
     );
   const [cliCommand, ...args] = cli;
   // Windows cannot spawn a .cmd file directly. Run the same CLI entry point
@@ -22,9 +24,10 @@ const manifest = require('../package.json');
   const isWindows = process.platform === 'win32';
   const command = isWindows ? executable : cliCommand;
   const cliEntry = isWindows
-    ? [path.join(path.dirname(executable), 'resources', 'app', 'out', 'cli.js')]
+    ? [windowsCliEntry(cliCommand, await fs.readFile(cliCommand, 'utf8'))]
     : [];
   try {
+    if (isWindows) await fs.access(cliEntry[0]);
     cp.execFileSync(
       command,
       [
