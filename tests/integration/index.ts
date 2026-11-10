@@ -46,9 +46,40 @@ export async function run(): Promise<void> {
     warehouseId: 1,
     warehouseName: 'Main Warehouse',
   });
+  assert.match(
+    await readFile(
+      join(extension.extensionPath, 'media/json-twist-activity.svg'),
+      'utf8',
+    ),
+    /viewBox="0 0 24 24"/,
+  );
   await extension.activate();
   const commands = await vscode.commands.getCommands(true);
   assert.ok(commands.includes('jsonEdgeCaseMaker.open'));
+  await vscode.commands.executeCommand('workbench.view.extension.jsonTwist');
+  const panelTabs = () =>
+    vscode.window.tabGroups.all
+      .flatMap((group) => group.tabs)
+      .filter(
+        (tab) =>
+          tab.input instanceof vscode.TabInputWebview &&
+          tab.input.viewType.includes('jsonEdgeCaseMaker'),
+      );
+  async function waitForGenerator(): Promise<void> {
+    const deadline = Date.now() + 5000;
+    while (!panelTabs().length && Date.now() < deadline)
+      await new Promise((resolve) => setTimeout(resolve, 25));
+    assert.equal(
+      panelTabs().length,
+      1,
+      'Activity Bar activation opens exactly one generator without a second action',
+    );
+  }
+  await waitForGenerator();
+  await vscode.commands.executeCommand('jsonEdgeCaseMaker.open');
+  await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+  await vscode.commands.executeCommand('workbench.view.extension.jsonTwist');
+  await waitForGenerator();
   await vscode.commands.executeCommand('jsonEdgeCaseMaker.open');
   await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
 
@@ -133,6 +164,6 @@ export async function run(): Promise<void> {
     await rm(folder, { recursive: true, force: true });
   }
   console.log(
-    'Extension host: activation, panel CSP, source preservation, clipboard, stale protection, and local export passed.',
+    'Extension host: activation, panel CSP, source preservation, one-click Activity Bar activation, clipboard, stale protection, and local export passed.',
   );
 }

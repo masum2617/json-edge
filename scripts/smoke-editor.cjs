@@ -78,6 +78,10 @@ const manifest = require('../package.json');
     { stdio: 'ignore', env },
   );
   let browser;
+  const clipboardBefore =
+    process.platform === 'darwin'
+      ? cp.execFileSync('/usr/bin/pbpaste')
+      : undefined;
   try {
     await expect
       .poll(
@@ -99,11 +103,11 @@ const manifest = require('../package.json');
       context.pages()[0];
     await page.waitForLoadState('domcontentloaded');
     await page.locator('.monaco-workbench').waitFor({ state: 'visible' });
-    await page.keyboard.press('F1');
-    await page
-      .locator('.quick-input-widget input')
-      .fill('>JSON Edge Case Maker: Open');
-    await page.keyboard.press('Enter');
+    // One Activity Bar click opens the editor directly; no second button.
+    const activity = page
+      .locator('.activitybar')
+      .getByRole('tab', { name: /JSON Twist/ });
+    await activity.click();
     let frame;
     await expect
       .poll(
@@ -124,16 +128,41 @@ const manifest = require('../package.json');
     );
     await frame.getByRole('checkbox', { name: '/email', exact: true }).check();
     await frame.getByRole('button', { name: 'Generate edge cases' }).click();
-    await expect(frame.getByText('4 cases', { exact: true })).toBeVisible();
+    await expect(frame.getByText('4 files', { exact: true })).toBeVisible();
+    await expect(page.locator('.part.sidebar')).toBeHidden();
+    // A repeated click reveals the same panel and preserves its generated files.
+    await activity.click();
+    await expect(page.locator('.part.sidebar')).toBeHidden();
+    await expect(
+      page.locator('.tab').filter({ hasText: 'JSON Twist' }),
+    ).toHaveCount(1);
     await frame
-      .getByRole('button', { name: '/email — Null value', exact: true })
+      .getByRole('button', {
+        name: '002-null.json — /email — Null value',
+        exact: true,
+      })
       .click();
+    await expect(
+      frame.getByRole('heading', { name: '002-null.json', exact: true }),
+    ).toBeVisible();
     await expect(frame.getByLabel('Generated JSON preview')).toContainText(
       '"email": null',
     );
     await frame.getByRole('button', { name: 'Copy JSON' }).click();
     await expect(frame.getByRole('status')).toContainText('JSON copied');
+    await expect(page.locator('.part.sidebar')).toBeHidden();
+    await expect(
+      page.getByRole('button', { name: 'Open Generator', exact: true }),
+    ).toHaveCount(0);
+    if (process.platform === 'darwin')
+      assert.equal(
+        JSON.parse(cp.execFileSync('/usr/bin/pbpaste', { encoding: 'utf8' }))
+          .email,
+        null,
+        'Copy uses the selected virtual file',
+      );
     await fs.mkdir('docs/images', { recursive: true });
+    await page.screenshot({ path: 'docs/images/vscode-activity-launch.png' });
     await page.keyboard.press('F1');
     await page
       .locator('.quick-input-widget input')
@@ -156,6 +185,16 @@ const manifest = require('../package.json');
       .getByRole('button', { name: 'Copy JSON' })
       .scrollIntoViewIfNeeded();
     await page.screenshot({ path: 'docs/images/vscode-results.png' });
+    assert.equal(
+      (await fs.readdir(temp)).filter((name) =>
+        name.startsWith('json-edge-cases-'),
+      ).length,
+      0,
+      'Generating and copying virtual files never creates a folder',
+    );
+    await frame
+      .getByText('Save files to disk (optional)', { exact: true })
+      .click();
     // Exercise the actual custom VS Code folder dialog, not a mocked UI bridge.
     await frame.getByRole('button', { name: 'Export selected' }).click();
     await page
@@ -207,9 +246,7 @@ const manifest = require('../package.json');
       await page.locator('.quick-input-widget').waitFor({ state: 'hidden' });
       await page.keyboard.press('Meta+a');
       await page.keyboard.press('F1');
-      await page
-        .locator('.quick-input-widget input')
-        .fill('>JSON Edge Case Maker: Open');
+      await page.locator('.quick-input-widget input').fill('>JSON Twist: Open');
       await page.keyboard.press('Enter');
       await frame
         .getByRole('button', { name: 'Load from Active Editor' })
@@ -253,10 +290,12 @@ const manifest = require('../package.json');
       ),
     );
     console.log(
-      'Real installed VSIX UI: editor load, generate, preview, copy, folder dialog, export, selected JavaScript snippets, dummy values, source preservation passed.',
+      'Real installed VSIX UI: editor load, generate, preview, copy, folder dialog, export, one-click Activity Bar launch and repeated-click reuse, selected JavaScript snippets, dummy values, source preservation passed.',
     );
   } finally {
     if (browser) await browser.close();
+    if (clipboardBefore !== undefined)
+      cp.execFileSync('/usr/bin/pbcopy', { input: clipboardBefore });
     child.kill();
     await fs.rm(temp, { recursive: true, force: true });
   }

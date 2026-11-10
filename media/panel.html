@@ -5,11 +5,11 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-{{NONCE}}'; style-src {{CSP}}; font-src 'none'; connect-src 'none';" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{{STYLE}}" />
-  <title>JSON Edge Case Maker</title>
+  <title>JSON Twist - Edge Case Generator</title>
 </head>
 <body>
   <main>
-    <header class="page-header"><div><p class="eyebrow">JSON EDGE CASE MAKER <span class="version">0.1.1</span></p><h1>One good example.<br />More ways to test it.</h1><p class="subtitle">Create labelled input variations. Decide what your application should accept.</p></div><span class="local-badge">Local · no uploads</span></header>
+    <header class="page-header"><div><p class="eyebrow">JSON TWIST <span class="version">0.1.4</span></p><h1>One good example.<br />More ways to test it.</h1><p class="subtitle">Create labelled input variations. Decide what your application should accept.</p></div><span class="local-badge">Local · no uploads</span></header>
     <div id="status" class="status" role="status" aria-live="polite">Paste a JSON object to begin. No file required.</div>
     <div class="workspace">
       <section class="card input-card" aria-labelledby="input-heading">
@@ -37,10 +37,11 @@
         <p class="hint">Each case changes one property in a fresh copy. Up to 250 cases.</p>
       </section>
     </div>
-    <section class="card results-card" aria-labelledby="results-heading">
-      <div class="section-heading"><h2 id="results-heading"><span class="step">3</span> Inspect & use <span id="result-count" class="count">0 cases</span></h2><div class="actions"><button id="select-cases" class="text-button" disabled>Select all</button><button id="export" class="secondary" disabled>Export selected</button></div></div>
-      <p id="result-summary" class="hint">Generate cases to preview and copy, or export them into your project.</p>
-      <div class="results-grid"><div id="cases" class="case-list"><p class="empty">Your generated cases will appear here.</p></div><div class="preview"><div class="preview-header"><h3 id="preview-title">JSON preview</h3><button id="copy" class="secondary" disabled>Copy JSON</button></div><p id="explanation" class="hint">Choose a case to inspect its full payload.</p><pre id="preview-json" tabindex="0" aria-label="Generated JSON preview"><code>{ }</code></pre></div></div>
+    <section id="results-section" class="card results-card" aria-labelledby="results-heading">
+      <div class="section-heading"><h2 id="results-heading"><span class="step">3</span> Generated JSON files <span id="result-count" class="count">0 files</span></h2><span id="result-state" class="count">In-memory previews</span></div>
+      <p id="result-summary" class="hint">Generate to see JSON files here. Click a filename to preview and copy its contents.</p>
+      <div class="results-grid"><ul id="cases" class="case-list" aria-label="Generated JSON files"><li class="empty">Your generated JSON files will appear here.</li></ul><div class="preview"><div class="preview-header"><h3 id="preview-title">JSON preview</h3><button id="copy" class="secondary" disabled>Copy JSON</button></div><p id="explanation" class="hint">Choose a file to inspect its JSON.</p><pre id="preview-json" tabindex="0" aria-label="Generated JSON preview"><code>{ }</code></pre></div></div>
+      <details id="export-options" class="export-options"><summary>Save files to disk (optional)</summary><p class="hint">To save copies, check files in the list and choose Export selected. Previewing and copying work without saving.</p><div class="actions"><button id="select-cases" class="text-button" disabled>Select all</button><button id="export" class="secondary" disabled>Export selected</button></div></details>
     </section>
     <footer>Candidate inputs, not test verdicts. Send them through your API client or existing tests.</footer>
   </main>

@@ -20,6 +20,14 @@ Export validates once before opening a folder dialog, then again after it return
 
 In `src/webview/main.ts`, the Enter handler uses `selectionStart`, `selectionEnd` and `setRangeText` to insert indentation at the caret. It does not attempt to parse or rewrite an unfinished object. It skips IME composition and modifier shortcuts. Tab retains normal browser focus behavior, avoiding a keyboard trap. The Format button handles full-document conversion explicitly.
 
+## Virtual JSON files first
+
+`generateCases` assigns each result a stable `filename` through `src/core/case-file.ts`. These names identify in-memory candidates; they are not filesystem resources. The browser renders semantic list items with buttons, previews the selected JSON using `textContent`, and sends the selected case ID for Copy JSON. Generating/previewing/copying does not invoke any filesystem action.
+
+After generation the panel scrolls the list into view and focuses the first file button. Up/Down and Home/End change the active file. Roving tab stops keep keyboard users from having to Tab through every generated file. The optional export section reveals selection checkboxes; its open/closed state changes presentation only. Selecting all export cases preserves the active preview.
+
+`exportEntries` uses the same controlled filename helper, so exporting a subset preserves displayed filenames rather than renumbering them. IDs and mutations are validated by that helper; user property keys never become paths. Closing the panel clears these virtual files with the existing memory session.
+
 ## Local resources and content security
 
 The HTML allows only nonce-authorized scripts and local styles; networking is blocked. All payloads, paths, and errors are displayed through `textContent`, never `innerHTML`. `localResourceRoots` is restricted to compiled UI assets. It is a resource-loading rule, not a filesystem sandbox for the host.

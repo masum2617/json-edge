@@ -392,3 +392,61 @@ footer {
   gap: 8px;
   margin-top: 12px;
 }
+
+/* Virtual files are the main result UI; export selection is opt-in. */
+.case-list {
+  list-style: none;
+  margin: 0;
+}
+.case-row > input {
+  display: none;
+}
+.results-card[data-saving='true'] .case-row > input {
+  display: inline-block;
+}
+.case-row button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  border: 1px solid transparent;
+}
+.case-row button:hover {
+  border-color: var(--vscode-panel-border);
+}
+.file-icon {
+  flex-shrink: 0;
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 16px;
+}
+.file-label {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.file-label strong {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.file-label small {
+  color: inherit;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.export-options {
+  border-top: 1px solid var(--vscode-panel-border);
+  margin-top: 18px;
+  padding-top: 12px;
+}
+.export-options summary {
+  cursor: pointer;
+  width: fit-content;
+}
+.export-options summary:focus-visible {
+  outline: 2px solid var(--vscode-focusBorder);
+  outline-offset: 2px;
+}
+.export-options .actions {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}

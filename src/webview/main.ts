@@ -81,8 +81,10 @@ declare function acquireVsCodeApi(): {
     fresh = false;
     pendingGeneration = false;
     send({ type: 'invalidate', revision });
-    if (cases.length)
-      status('Results are outdated. Generate again to copy or export.');
+    if (cases.length) {
+      element('result-state').textContent = 'Outdated — generate again';
+      status('Generated files are outdated. Generate again to copy or save.');
+    }
     controls();
   }
   function analyze(): void {
@@ -162,22 +164,25 @@ declare function acquireVsCodeApi(): {
     activeCase = id;
     const item = cases.find((entry) => entry.id === id);
     if (!item) return;
-    element('preview-title').textContent = item.title;
+    element('preview-title').textContent = item.filename;
     element('explanation').textContent = item.explanation;
     element('preview-json').textContent = item.json;
     for (const row of document.querySelectorAll<HTMLElement>('.case-row'))
       row.dataset.active = String(row.dataset.id === id);
     for (const button of document.querySelectorAll<HTMLElement>(
       '.case-row button',
-    ))
-      button.setAttribute('aria-pressed', String(button.dataset.id === id));
+    )) {
+      const active = button.dataset.id === id;
+      button.setAttribute('aria-pressed', String(active));
+      button.tabIndex = active ? 0 : -1;
+    }
     controls();
   }
   function renderCases(): void {
     const list = element('cases');
     list.replaceChildren();
-    for (const item of cases) {
-      const row = document.createElement('div');
+    for (const [index, item] of cases.entries()) {
+      const row = document.createElement('li');
       row.className = 'case-row';
       row.dataset.id = item.id;
       const checkbox = document.createElement('input');
@@ -190,21 +195,51 @@ declare function acquireVsCodeApi(): {
         controls();
       });
       const button = document.createElement('button');
-      button.textContent = item.title;
+      const icon = document.createElement('span');
+      icon.className = 'file-icon';
+      icon.textContent = '{ }';
+      icon.setAttribute('aria-hidden', 'true');
+      const label = document.createElement('span');
+      label.className = 'file-label';
+      const name = document.createElement('strong');
+      name.textContent = item.filename;
+      const description = document.createElement('small');
+      description.textContent = item.title;
+      label.append(name, description);
+      button.append(icon, label);
+      button.setAttribute('aria-label', `${item.filename} — ${item.title}`);
       button.dataset.id = item.id;
       button.setAttribute('aria-pressed', 'false');
       button.addEventListener('click', () => preview(item.id));
+      // Roving focus gives keyboard users one Tab stop for up to 250 files.
+      button.addEventListener('keydown', (event: KeyboardEvent) => {
+        let next: number;
+        if (event.key === 'ArrowDown')
+          next = Math.min(index + 1, cases.length - 1);
+        else if (event.key === 'ArrowUp') next = Math.max(index - 1, 0);
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = cases.length - 1;
+        else return;
+        event.preventDefault();
+        const target = cases[next];
+        if (!target) return;
+        preview(target.id);
+        list
+          .querySelectorAll<HTMLButtonElement>('.case-row button')
+          [next]?.focus();
+      });
       row.append(checkbox, button);
       list.append(row);
     }
     if (!cases.length) {
-      const message = document.createElement('p');
+      const message = document.createElement('li');
       message.className = 'empty';
       message.textContent =
         'No applicable cases. Choose different fields or variations.';
       list.append(message);
     }
-    if (cases[0]) preview(cases[0].id);
+    const selected = cases.find((item) => item.id === activeCase) ?? cases[0];
+    if (selected) preview(selected.id);
     else {
       activeCase = undefined;
       element('preview-json').textContent = '{ }';
@@ -319,6 +354,11 @@ declare function acquireVsCodeApi(): {
   exportButton.addEventListener('click', () => {
     if (fresh) send({ type: 'export', revision, ids: [...selectedCases] });
   });
+  element('export-options').addEventListener('toggle', () => {
+    element('results-section').dataset.saving = String(
+      element<HTMLDetailsElement>('export-options').open,
+    );
+  });
   element('select-cases').addEventListener('click', () => {
     selectedCases =
       selectedCases.size === cases.length
@@ -366,13 +406,23 @@ declare function acquireVsCodeApi(): {
         fresh = true;
         pendingGeneration = false;
         selectedCases = new Set(cases.map((item) => item.id));
-        element('result-count').textContent = `${cases.length} cases`;
+        activeCase = cases[0]?.id;
+        element('result-count').textContent = `${cases.length} files`;
+        element('result-state').textContent = 'In-memory previews';
         element('result-summary').textContent =
-          `${message.skipped} unchanged, duplicate, or inapplicable variations skipped. Select cases for export.`;
+          `${message.skipped} unchanged, duplicate, or inapplicable variations skipped. Click a file to preview its JSON, then Copy JSON.`;
         renderCases();
         status(
-          `${cases.length} candidate inputs generated. Your original stays unchanged.`,
+          `${cases.length} JSON files ready to preview and copy. Files stay in this panel until you choose to save them.`,
         );
+        // Put the primary result workflow in view immediately after Generate.
+        element('results-section').scrollIntoView({
+          block: 'start',
+          behavior: 'auto',
+        });
+        element('cases')
+          .querySelector<HTMLButtonElement>('.case-row button')
+          ?.focus({ preventScroll: true });
         break;
       case 'error':
         pendingPreparation = false;

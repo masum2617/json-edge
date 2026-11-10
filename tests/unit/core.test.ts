@@ -301,3 +301,29 @@ test('bounds repeated long parent paths before field metadata can amplify input'
     /Combined field paths/,
   );
 });
+
+test('virtual file names are stable across preview and subset export', () => {
+  const { cases } = generateCases(sample, ['/name'], [...MUTATIONS]);
+  assert.deepEqual(
+    cases.map((item) => item.filename),
+    [
+      '001-missing.json',
+      '002-null.json',
+      '003-empty.json',
+      '004-wrongType.json',
+    ],
+  );
+  const entries = exportEntries([cases[1]!, cases[3]!]);
+  assert.deepEqual(
+    entries.map((item) => item.filename),
+    ['002-null.json', '004-wrongType.json', 'index.json'],
+  );
+  assert.equal(
+    JSON.parse(entries[2]!.contents).cases[0].file,
+    cases[1]!.filename,
+  );
+  assert.throws(
+    () => exportEntries([{ ...cases[0]!, id: '../bad' }]),
+    /Invalid generated file identity/,
+  );
+});

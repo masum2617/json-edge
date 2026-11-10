@@ -1,8 +1,8 @@
-# JSON Edge Case Maker
+# JSON Twist - Edge Case Generator
 
 Turn a working JSON example into labelled **missing**, **null**, **empty**, and **wrong-type** input fixtures, directly in VS Code.
 
-Version 0.1.1 is a local release candidate. It is not published to the Marketplace. The manifest uses `local-development` until the owner supplies a verified publisher ID and public repository URL.
+Version 0.1.4 is a local release candidate. It is not published to the Marketplace. The manifest uses `local-development` until the owner supplies a verified publisher ID and public repository URL.
 
 ## Why use it?
 
@@ -36,19 +36,29 @@ These are **candidate inputs**, not test verdicts. Your application may legitima
 
 ## Install the local release
 
-1. Build the VSIX with the development instructions below, or obtain the supplied `json-edge-case-maker-0.1.1.vsix`.
+1. Build the VSIX with the development instructions below, or obtain the supplied `json-edge-case-maker-0.1.4.vsix`.
 2. In VS Code, run **Extensions: Install from VSIX…** and select it.
-3. Run **JSON Edge Case Maker: Open** from the Command Palette.
+3. Run **JSON Twist: Open** from the Command Palette.
 
 Requires VS Code desktop 1.100.0 or newer. No API key, account, backend, or project dependencies are required by the installed extension.
+
+## Activity Bar access
+
+Click the braces/arrows **JSON Twist** icon on VS Code's Activity Bar to open the entire generator directly in the right-hand editor panel. There is no extra Open Generator button. Clicking the icon again reveals the existing generator and preserves its input and generated files.
+
+Generated files, previews and Copy JSON all remain inside that editor panel. If the icon is hidden, right-click the Activity Bar and enable **JSON Twist**. Command Palette access still works. [See the one-click result](docs/images/vscode-activity-launch.png).
+
+To customize the icon or understand the manifest/launcher wiring, read [Activity Bar launching](docs/learning/07-activity-bar-and-sidebar.md).
 
 ## Workflow
 
 1. Copy JSON from an API request, response, or fixture. Paste it into the panel; no file is required. Alternatively, open a JSON document and use the editor context menu.
 2. Select properties. Nested object properties appear as selectable paths; arrays are treated as single values.
 3. Choose variations and click **Generate edge cases**.
-4. Click a result to inspect its payload and explanation.
-5. **Copy JSON** copies the current preview. Result checkboxes choose what **Export selected** exports.
+4. The panel brings **Generated JSON files** into view. Click a filename such as `002-null.json` to see its formatted JSON and explanation.
+5. **Copy JSON** copies the file you are viewing. Use Up/Down, Home/End to browse the file list with a keyboard.
+
+Generated files are virtual, memory-only previews inside the extension. Generating, opening and copying them creates no folders or files on disk. Closing the panel clears them. If you want saved copies, expand **Save files to disk (optional)**, check files and choose **Export selected**.
 
 **Load from Active Editor** uses the last active text editor while the panel has focus. A text selection is used first; otherwise the entire JSON/JSONC document is loaded. Editor imports are converted to strict JSON before generation. Unquoted keys, single quotes, comments and trailing commas in object snippets are accepted by this import step. Source documents are never edited.
 
@@ -95,11 +105,11 @@ Paths use [JSON Pointer](https://www.rfc-editor.org/rfc/rfc6901), not JavaScript
 
 Results follow source field order and the variation order above. Identical resulting payloads are deduplicated. Each case is generated from the original baseline, including when both a parent and its child are selected.
 
-### Export format
+### Optional disk export
 
-Choose a local parent directory. Export creates a separate uniquely named `json-edge-cases-...` folder containing numbered fixtures and `index.json` with filenames, JSON Pointer paths, mutations, and explanations. It never overwrites an existing file. On a write failure, the report lists completed files and the failed filename; completed files are retained for inspection.
+Expand **Save files to disk (optional)** to reveal export selection checkboxes and controls. Choose a local parent directory. Export creates a separate uniquely named `json-edge-cases-...` folder containing numbered fixtures and `index.json` with filenames, JSON Pointer paths, mutations, and explanations. It never overwrites an existing file. On a write failure, the report lists completed files and the failed filename; completed files are retained for inspection.
 
-The index is metadata, not an additional fixture. The original baseline is not exported automatically.
+Exported filenames match those in the panel, even when exporting a subset; numbering may contain gaps. The index is metadata, not an additional fixture. The original baseline is not exported automatically.
 
 ## Limits and privacy
 
@@ -120,14 +130,14 @@ npm ci
 npm run compile
 ```
 
-Open this folder in VS Code and press **F5**. A separate **Extension Development Host** window opens. In that window run **JSON Edge Case Maker: Open**. Make a source change, compile again, then run **Developer: Reload Window** in the development host.
+Open this folder in VS Code and press **F5**. A separate **Extension Development Host** window opens. In that window run **JSON Twist: Open**. Make a source change, compile again, then run **Developer: Reload Window** in the development host.
 
 ```sh
 npm run check             # type checks, lint, formatting, unit tests
 npm run test:integration  # official VS Code extension-host tests
 npx playwright install chromium
 npm run test:ui           # real panel + engine through a test transport
-npm run package          # artifacts/json-edge-case-maker-0.1.1.vsix
+npm run package          # artifacts/json-edge-case-maker-0.1.4.vsix
 npm run test:package      # installs that exact VSIX in an isolated profile and tests it
 npm run release:check     # intentionally fails until release identity/URLs are supplied
 ```
@@ -135,6 +145,8 @@ npm run release:check     # intentionally fails until release identity/URLs are 
 `test:integration` downloads VS Code Stable unless `VSCODE_EXECUTABLE_PATH` points to its executable. `test:ui` accepts `CHROME_PATH` for an existing Chrome executable. Test downloads and the local UI test server are development-only. Scripts use temporary VS Code profiles rather than modifying your regular setup. `watch` recompiles extension-host TypeScript only; run `compile` after webview/CSS/HTML changes.
 
 Start learning with [Extension basics](docs/learning/01-extension-basics.md), then follow the numbered [learning guide](docs/learning/02-project-walkthrough.md). See [CONTRIBUTING](CONTRIBUTING.md) for code conventions and [release preparation](docs/learning/06-packaging-and-publishing.md) before publishing.
+
+The public display name is **JSON Twist - Edge Case Generator**. The existing `json-edge-case-maker` package identity and `jsonEdgeCaseMaker.open` command ID remain stable for local upgrades; the visible command is **JSON Twist: Open**.
 
 ## License
 

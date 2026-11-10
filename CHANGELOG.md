@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.1.4 — Local update
+
+- Open/reveal the full generator directly from an Activity Bar icon click.
+- Remove the intermediate Open Generator welcome button and sidebar file browser.
+- Keep generated files, preview and copying in the right-hand editor panel.
+- Close the launcher sidebar after activation and reuse the existing generator on repeated clicks.
+- Add one-click opening/reopening checks and update the learning guide.
+
+## 0.1.3 — Local update
+
+- Add a JSON Twist Activity Bar icon and native generated-files sidebar.
+- Provide an Open Generator welcome action and a title-bar action.
+- Open fresh case previews by clicking sidebar filenames; clear stale/closed sessions and reject old references.
+- Add an SVG icon, platform/sidebar tests and a dedicated learning chapter.
+
+## 0.1.2 — Local update
+
+- Show generated cases as clickable, memory-only JSON filenames with a preview and Copy JSON.
+- Bring results into view automatically and support Up/Down/Home/End file navigation.
+- Move filesystem export into a collapsed optional section; preserve filenames when exporting subsets.
+- Apply the chosen JSON Twist display name while retaining the existing local package and command IDs.
+
 ## 0.1.1 — Local update
 
 - Convert editor selections and object property lists to formatted strict JSON, including unquoted keys, single quotes and trailing commas.

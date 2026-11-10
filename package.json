@@ -1,8 +1,8 @@
 {
   "name": "json-edge-case-maker",
-  "displayName": "JSON Edge Case Maker",
+  "displayName": "JSON Twist - Edge Case Generator",
   "description": "Turn example JSON into labelled missing, null, empty and wrong-type input fixtures.",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "publisher": "local-development",
   "license": "MIT",
   "engines": {
@@ -36,7 +36,7 @@
       {
         "command": "jsonEdgeCaseMaker.open",
         "title": "Open",
-        "category": "JSON Edge Case Maker"
+        "category": "JSON Twist"
       }
     ],
     "menus": {
@@ -45,6 +45,23 @@
           "command": "jsonEdgeCaseMaker.open",
           "when": "editorLangId == json",
           "group": "navigation@100"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "jsonTwist",
+          "title": "JSON Twist",
+          "icon": "media/json-twist-activity.svg"
+        }
+      ]
+    },
+    "views": {
+      "jsonTwist": [
+        {
+          "id": "jsonTwist.generatedFiles",
+          "name": "Generator"
         }
       ]
     }

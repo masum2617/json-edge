@@ -1,3 +1,4 @@
+import { caseFilename } from './case-file';
 import { analyzeJson } from './analyze';
 import {
   LIMITS,
@@ -126,6 +127,7 @@ export function generateCases(
       }[mutation];
       cases.push({
         id: String(cases.length + 1),
+        filename: caseFilename(String(cases.length + 1), mutation),
         pointer: field.pointer,
         mutation,
         title: `${field.pointer} — ${label}`,

@@ -27,6 +27,8 @@ export interface Analysis {
 }
 export interface GeneratedCase {
   id: string;
+  /** Virtual file label; creating a case does not write a filesystem file. */
+  filename: string;
   pointer: string;
   mutation: MutationKind;
   title: string;

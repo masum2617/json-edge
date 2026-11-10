@@ -2,7 +2,7 @@
 
 ## A VSIX is the installable extension
 
-`npm run package` compiles and creates `artifacts/json-edge-case-maker-0.1.1.vsix`. `npm run package:list` shows included files. `.vscodeignore` excludes development sources, tests, caches, and tooling, while retaining the compiled host, UI, icon, and `jsonc-parser` and `acorn` runtimes.
+`npm run package` compiles and creates `artifacts/json-edge-case-maker-0.1.4.vsix`. `npm run package:list` shows included files. `.vscodeignore` excludes development sources, tests, caches, and tooling, while retaining the compiled host, UI, icon, and `jsonc-parser` and `acorn` runtimes.
 
 Install with **Extensions: Install from VSIX…**, then open the panel and try a synthetic example. `npm run test:package` also installs this exact artifact into an isolated profile and checks its runtime behavior.
 
@@ -21,6 +21,8 @@ The official guide covers manifest compatibility, allowed image formats, publish
 
 ## Version updates
 
-Keep SemVer, changelog, package output name, and package test path consistent. The initial candidate was 0.1.0; the snippet/editing update is 0.1.1. Fix reports with focused regression tests, package a new version, and verify the artifact again. Add schema constraints or array-item targeting only after the basic workflow is reliable.
+Keep SemVer, changelog, package output name, and package test path consistent. The initial candidate was 0.1.0; the snippet/editing update was 0.1.1, and the JSON Twist virtual-file browser is 0.1.2. Fix reports with focused regression tests, package a new version, and verify the artifact again. Add schema constraints or array-item targeting only after the basic workflow is reliable.
 
 Reference: [Publishing Extensions](https://code.visualstudio.com/api/working-with-extensions/publishing-extension).
+
+Next: [Activity Bar launching](07-activity-bar-and-sidebar.md).

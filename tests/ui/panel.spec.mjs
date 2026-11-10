@@ -87,8 +87,10 @@ test.beforeEach(async ({ page }) => {
       );
   });
   await page.addInitScript(() => {
+    window.sentMessages = [];
     window.acquireVsCodeApi = () => ({
       postMessage: (m) => {
+        window.sentMessages.push(m);
         void window.sendToHost(m);
       },
     });
@@ -101,7 +103,7 @@ async function makeCases(page) {
   await page.getByRole('button', { name: 'Try sample JSON' }).click();
   await page.getByRole('checkbox', { name: '/email', exact: true }).check();
   await page.getByRole('button', { name: 'Generate edge cases' }).click();
-  await expect(page.getByText('4 cases', { exact: true })).toBeVisible();
+  await expect(page.getByText('4 files', { exact: true })).toBeVisible();
 }
 
 test('generates previews, copies, cancels export, and invalidates changed input/options', async ({
@@ -111,7 +113,10 @@ test('generates previews, copies, cancels export, and invalidates changed input/
   page.on('pageerror', (e) => errors.push(e.message));
   await makeCases(page);
   await page
-    .getByRole('button', { name: '/email — Null value', exact: true })
+    .getByRole('button', {
+      name: '002-null.json — /email — Null value',
+      exact: true,
+    })
     .click();
   await expect(page.getByLabel('Generated JSON preview')).toContainText(
     '"email": null',
@@ -120,6 +125,9 @@ test('generates previews, copies, cancels export, and invalidates changed input/
   await expect(page.getByRole('status')).toHaveText(
     'JSON copied to clipboard.',
   );
+  await page
+    .getByText('Save files to disk (optional)', { exact: true })
+    .click();
   await page.getByRole('button', { name: 'Export selected' }).click();
   await expect(page.getByRole('status')).toContainText('Export cancelled');
   await page
@@ -131,7 +139,7 @@ test('generates previews, copies, cancels export, and invalidates changed input/
     page.getByRole('button', { name: 'Export selected' }),
   ).toBeDisabled();
   await page.getByRole('button', { name: 'Generate edge cases' }).click();
-  await expect(page.getByText('3 cases', { exact: true })).toBeVisible();
+  await expect(page.getByText('3 files', { exact: true })).toBeVisible();
   await page
     .getByLabel('Example JSON', { exact: true })
     .fill('{"email":"updated@example.com"}');
@@ -215,9 +223,7 @@ for (const theme of ['dark', 'light', 'high contrast']) {
         () => document.documentElement.scrollWidth <= window.innerWidth,
       ),
     ).toBe(true);
-    await expect(
-      page.getByRole('button', { name: 'Export selected' }),
-    ).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Copy JSON' })).toBeVisible();
   });
 }
 
@@ -357,4 +363,69 @@ test('typing while preparation is pending cannot be overwritten by the old respo
   await expect(
     page.getByRole('button', { name: 'Format JSON', exact: true }),
   ).toBeEnabled();
+});
+
+test('generated virtual files are immediately visible, keyboard browsable and copyable without saving', async ({
+  page,
+}) => {
+  await makeCases(page);
+  const list = page.getByRole('list', {
+    name: 'Generated JSON files',
+    exact: true,
+  });
+  const missing = list.getByRole('button', {
+    name: '001-missing.json — /email — Missing field',
+    exact: true,
+  });
+  const nullFile = list.getByRole('button', {
+    name: '002-null.json — /email — Null value',
+    exact: true,
+  });
+  await expect(list.getByRole('button')).toHaveCount(4);
+  await expect(missing).toBeFocused();
+  await expect(missing).toBeInViewport();
+  await expect(
+    page.getByRole('heading', { name: '001-missing.json', exact: true }),
+  ).toBeVisible();
+  await missing.press('ArrowDown');
+  await expect(nullFile).toBeFocused();
+  await expect(nullFile).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByLabel('Generated JSON preview')).toContainText(
+    '"email": null',
+  );
+  await nullFile.press('End');
+  await expect(
+    page.getByRole('heading', { name: '004-wrongType.json', exact: true }),
+  ).toBeVisible();
+  await page.keyboard.press('Home');
+  await expect(missing).toBeFocused();
+  await nullFile.click();
+  await page.getByRole('button', { name: 'Copy JSON' }).click();
+  await expect(page.getByRole('status')).toHaveText(
+    'JSON copied to clipboard.',
+  );
+  await expect(
+    page.getByRole('button', { name: 'Export selected' }),
+  ).toHaveCount(0);
+  expect(
+    await page.evaluate(() =>
+      window.sentMessages.filter((m) => m.type === 'export'),
+    ),
+  ).toEqual([]);
+  await page
+    .getByText('Save files to disk (optional)', { exact: true })
+    .click();
+  await expect(
+    page.getByRole('checkbox', {
+      name: 'Export /email — Null value',
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page.locator('#select-cases').click();
+  await expect(
+    page.getByRole('heading', { name: '002-null.json', exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Export selected' }),
+  ).toBeDisabled();
 });

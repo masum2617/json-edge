@@ -33,7 +33,7 @@ export class EdgeCasePanel implements vscode.Disposable {
   ): Promise<EdgeCasePanel> {
     const panel = vscode.window.createWebviewPanel(
       'jsonEdgeCaseMaker',
-      'JSON Edge Case Maker',
+      'JSON Twist',
       vscode.ViewColumn.Beside,
       {
         enableScripts: true,
@@ -57,6 +57,7 @@ export class EdgeCasePanel implements vscode.Disposable {
 
   /** Internal entry point, also exercised by extension-host integration tests. */
   async handleMessage(raw: unknown): Promise<void> {
+    if (this.disposed) return;
     let revision: number | undefined;
     try {
       const message = parseClientMessage(raw);
@@ -107,6 +108,7 @@ export class EdgeCasePanel implements vscode.Disposable {
           });
           break;
         case 'generate': {
+          this.session.invalidate(message.revision);
           const result = this.session.generate(
             message.revision,
             message.text,

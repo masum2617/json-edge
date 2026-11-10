@@ -1,3 +1,4 @@
+import { caseFilename } from './case-file';
 import type { GeneratedCase } from './types';
 
 export interface ExportEntry {
@@ -12,8 +13,8 @@ export interface ExportReport {
 
 /** Filenames use controlled indexes, never property paths supplied by users. */
 export function exportEntries(cases: readonly GeneratedCase[]): ExportEntry[] {
-  const entries = cases.map((item, index) => ({
-    filename: `${String(index + 1).padStart(3, '0')}-${item.mutation}.json`,
+  const entries = cases.map((item) => ({
+    filename: caseFilename(item.id, item.mutation),
     contents: item.json + '\n',
   }));
   const index = cases.map((item, i) => ({
