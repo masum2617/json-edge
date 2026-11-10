@@ -17,7 +17,7 @@ Registering listeners returns objects with a `dispose()` method. Putting them in
 1. Run `npm ci` and `npm run compile`.
 2. Open the extension folder, not its parent folder.
 3. Press F5 and select **Run Extension** if asked.
-4. In the new Extension Development Host, run **JSON Twist: Open**.
+4. In the new Extension Development Host, run **JSON Edge: Open**.
 5. Set a breakpoint in the command callback to see activation and execution.
 
 The launch configuration runs the compile task first. Source maps connect generated JavaScript back to TypeScript. After a change, compile and reload the development host. Closing the test window does not uninstall anything from your normal VS Code profile.

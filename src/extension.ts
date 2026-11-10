@@ -34,12 +34,12 @@ export function activate(context: vscode.ExtensionContext): void {
       );
     } catch (error) {
       void vscode.window.showErrorMessage(
-        `JSON Twist: ${error instanceof Error ? error.message : String(error)}`,
+        `JSON Edge: ${error instanceof Error ? error.message : String(error)}`,
       );
     }
   }
   context.subscriptions.push(
-    vscode.commands.registerCommand('jsonEdgeCaseMaker.open', async () => {
+    vscode.commands.registerCommand('jsonEdge.open', async () => {
       if (controller) {
         controller.panel.reveal();
         return;
@@ -53,7 +53,7 @@ export function activate(context: vscode.ExtensionContext): void {
     }),
   );
   registerActivityLauncher(context, async () => {
-    await vscode.commands.executeCommand('jsonEdgeCaseMaker.open');
+    await vscode.commands.executeCommand('jsonEdge.open');
   });
   context.subscriptions.push({ dispose: () => controller?.dispose() });
 }

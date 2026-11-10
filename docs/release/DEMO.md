@@ -4,8 +4,8 @@ The README uses a short looping GIF because it can be embedded as an image. A no
 
 ## Assets
 
-- `docs/media/json-twist-demo.gif`: looping, silent README demonstration.
-- `docs/media/json-twist-demo.mp4`: H.264/yuv420p companion video.
+- `docs/media/json-edge-demo.gif`: looping, silent README demonstration.
+- `docs/media/json-edge-demo.mp4`: H.264/yuv420p companion video.
 - `docs/media/demo-manifest.json`: actual frame count, duration, version and output sizes.
 - `docs/images/marketplace-editor.png`: one-click Activity Bar opening beside a source JSON document.
 - `docs/images/marketplace-input.png`: input JSON and selected field/variations.
@@ -22,7 +22,7 @@ These are real captures of the installed extension in a temporary VS Code profil
 4. Preview missing, null, empty and wrong-type results.
 5. Select the null case, copy JSON, and show copy feedback.
 
-Recording holds are intentional human viewing time, not test synchronization or a performance benchmark. The verified final Copied state is held for roughly two seconds after pausing continuous capture around the native clipboard handoff; every displayed UI state is from the real app. The GIF loops without narration. The README supplies a text workflow and meaningful alt text; the video is supplementary.
+The 0.1.6 demo is a 12-second sequence of six real native screenshots, each held for two seconds: selected input, missing, null, empty, wrong type, and verified Copied state. It shows actual app states rather than continuous pointer movement. Holds are for readability, not a performance claim. The GIF loops without narration; the README supplies a text workflow and meaningful alt text.
 
 ## Reproduce
 

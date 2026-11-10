@@ -1,10 +1,10 @@
-# JSON Twist — Edge Case Generator
+# JSON Edge - The Edge Case Maker
 
 Turn one JSON example into labelled **missing**, **null**, **empty**, and **wrong-type** inputs in VS Code. Preview each generated file and copy its JSON without leaving the editor.
 
-![JSON Twist demo: select email, generate four variations, preview and copy JSON](docs/media/json-twist-demo.gif)
+![JSON Edge demo: select email, generate four variations, preview and copy JSON](docs/media/json-edge-demo.gif)
 
-[Watch or download the MP4 demo](docs/media/json-twist-demo.mp4) · [User guide](docs/USER-GUIDE.md) · [Report an issue](https://github.com/masum2617/json-twist/issues)
+[Watch or download the MP4 demo](docs/media/json-edge-demo.mp4) · [User guide](docs/USER-GUIDE.md) · [Report an issue](https://github.com/masum2617/json-edge/issues)
 
 ## What it does
 
@@ -21,14 +21,14 @@ These are candidate inputs, not test verdicts. Your application decides whether 
 ## Quick start
 
 1. Open a JSON document, or copy an example from an API request or fixture.
-2. Click the **JSON Twist** braces/arrows icon in the Activity Bar, or run **JSON Twist: Open**.
+2. Click the **JSON Edge** braces/arrows icon in the Activity Bar, or run **JSON Edge: Open**.
 3. Select fields and variations, then click **Generate edge cases**.
 4. Click a filename such as `002-null.json` to inspect it.
 5. Click **Copy JSON** and use the payload in your API client or existing tests.
 
 Generated files stay in the panel's memory. Generating, previewing and copying do not create folders. To save copies, expand **Save files to disk (optional)**. Closing the panel clears the session.
 
-![JSON Twist input and field selection](docs/images/marketplace-input.png)
+![JSON Edge input and field selection](docs/images/marketplace-input.png)
 
 [More screenshots](docs/images/README.md) · [See snippet conversion](docs/images/marketplace-snippets.png)
 
@@ -81,7 +81,7 @@ Unquoted keys, single quotes and trailing commas are normalized. Literal values 
 
 Requires VS Code **desktop 1.100.0 or newer**. For manual installation, build or obtain the VSIX and use **Extensions: Install from VSIX…**.
 
-After installation, run **Developer: Reload Window** if upgrading a local build. If the icon is hidden, right-click the Activity Bar and enable **JSON Twist**. [Detailed installation and troubleshooting](docs/USER-GUIDE.md).
+After installation, run **Developer: Reload Window** if upgrading a local build. If the icon is hidden, right-click the Activity Bar and enable **JSON Edge**. [Detailed installation and troubleshooting](docs/USER-GUIDE.md).
 
 ## Limits and privacy
 
@@ -109,3 +109,7 @@ Open the project in VS Code and press **F5**. See the [development guide](docs/D
 - [Step-by-step Marketplace publishing](docs/PUBLISHING.md)
 
 MIT licensed. See [LICENSE](LICENSE).
+
+## Moving from JSON Twist
+
+JSON Edge is published as `masum-hasan.json-edge`. If you installed JSON Twist (`masum-hasan.json-twist`), install JSON Edge explicitly; it is a separate Marketplace listing. You can then uninstall JSON Twist.

@@ -48,22 +48,22 @@ export async function run(): Promise<void> {
   });
   assert.match(
     await readFile(
-      join(extension.extensionPath, 'media/json-twist-activity.svg'),
+      join(extension.extensionPath, 'media/json-edge-activity.svg'),
       'utf8',
     ),
     /viewBox="0 0 24 24"/,
   );
   await extension.activate();
   const commands = await vscode.commands.getCommands(true);
-  assert.ok(commands.includes('jsonEdgeCaseMaker.open'));
-  await vscode.commands.executeCommand('workbench.view.extension.jsonTwist');
+  assert.ok(commands.includes('jsonEdge.open'));
+  await vscode.commands.executeCommand('workbench.view.extension.jsonEdge');
   const panelTabs = () =>
     vscode.window.tabGroups.all
       .flatMap((group) => group.tabs)
       .filter(
         (tab) =>
           tab.input instanceof vscode.TabInputWebview &&
-          tab.input.viewType.includes('jsonEdgeCaseMaker'),
+          tab.input.viewType.includes('jsonEdge'),
       );
   async function waitForGenerator(): Promise<void> {
     const deadline = Date.now() + 5000;
@@ -76,11 +76,11 @@ export async function run(): Promise<void> {
     );
   }
   await waitForGenerator();
-  await vscode.commands.executeCommand('jsonEdgeCaseMaker.open');
+  await vscode.commands.executeCommand('jsonEdge.open');
   await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
-  await vscode.commands.executeCommand('workbench.view.extension.jsonTwist');
+  await vscode.commands.executeCommand('workbench.view.extension.jsonEdge');
   await waitForGenerator();
-  await vscode.commands.executeCommand('jsonEdgeCaseMaker.open');
+  await vscode.commands.executeCommand('jsonEdge.open');
   await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
 
   const original = '{"email":"integration-fixture@example.test","age":25}';

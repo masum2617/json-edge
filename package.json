@@ -1,8 +1,8 @@
 {
-  "name": "json-twist",
-  "displayName": "JSON Twist - Edge Case Generator",
+  "name": "json-edge",
+  "displayName": "JSON Edge - The Edge Case Maker",
   "description": "Create JSON edge-case inputs with missing fields, nulls, empty values and wrong types. Preview and copy locally.",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "publisher": "masum-hasan",
   "license": "MIT",
   "engines": {
@@ -35,15 +35,15 @@
   "contributes": {
     "commands": [
       {
-        "command": "jsonEdgeCaseMaker.open",
+        "command": "jsonEdge.open",
         "title": "Open",
-        "category": "JSON Twist"
+        "category": "JSON Edge"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "jsonEdgeCaseMaker.open",
+          "command": "jsonEdge.open",
           "when": "editorLangId == json",
           "group": "navigation@100"
         }
@@ -52,16 +52,16 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "jsonTwist",
-          "title": "JSON Twist",
-          "icon": "media/json-twist-activity.svg"
+          "id": "jsonEdge",
+          "title": "JSON Edge",
+          "icon": "media/json-edge-activity.svg"
         }
       ]
     },
     "views": {
-      "jsonTwist": [
+      "jsonEdge": [
         {
-          "id": "jsonTwist.generatedFiles",
+          "id": "jsonEdge.generatedFiles",
           "name": "Generator"
         }
       ]
@@ -109,10 +109,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/masum2617/json-twist.git"
+    "url": "https://github.com/masum2617/json-edge.git"
   },
   "bugs": {
-    "url": "https://github.com/masum2617/json-twist/issues"
+    "url": "https://github.com/masum2617/json-edge/issues"
   },
-  "homepage": "https://github.com/masum2617/json-twist#readme"
+  "homepage": "https://github.com/masum2617/json-edge#readme"
 }

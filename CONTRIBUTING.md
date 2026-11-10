@@ -1,6 +1,6 @@
 # Contributing
 
-JSON Twist is intentionally small enough to understand as a first VS Code extension. Use Node.js 22.14+ or 24 LTS, run `npm ci`, and follow the README development commands.
+JSON Edge is intentionally small enough to understand as a first VS Code extension. Use Node.js 22.14+ or 24 LTS, run `npm ci`, and follow the README development commands.
 
 ## Code conventions
 
@@ -17,7 +17,7 @@ CI covers unit, panel UI, extension-host, and packaged-VSIX smoke tests on Linux
 
 ## Reporting a problem
 
-Use the [GitHub issue tracker](https://github.com/masum2617/json-twist/issues). Include OS, VS Code version, reproduction steps, expected/actual behavior, and a **synthetic** JSON example. Do not attach credentials or real customer data.
+Use the [GitHub issue tracker](https://github.com/masum2617/json-edge/issues). Include OS, VS Code version, reproduction steps, expected/actual behavior, and a **synthetic** JSON example. Do not attach credentials or real customer data.
 
 ## Dependency maintenance
 

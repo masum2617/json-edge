@@ -9,7 +9,7 @@ export function registerActivityLauncher(
   context: vscode.ExtensionContext,
   openGenerator: () => Promise<void>,
 ): void {
-  const view = vscode.window.createTreeView<never>('jsonTwist.generatedFiles', {
+  const view = vscode.window.createTreeView<never>('jsonEdge.generatedFiles', {
     treeDataProvider: {
       getTreeItem: () => {
         throw new Error('The launcher has no tree items.');
@@ -17,7 +17,7 @@ export function registerActivityLauncher(
       getChildren: () => [],
     },
   });
-  view.message = 'Opening JSON Twist…';
+  view.message = 'Opening JSON Edge…';
   let launching = false;
   let disposed = false;
   async function launch(): Promise<void> {
@@ -32,7 +32,7 @@ export function registerActivityLauncher(
     } catch (error) {
       if (!disposed)
         void vscode.window.showErrorMessage(
-          `JSON Twist: ${error instanceof Error ? error.message : String(error)}`,
+          `JSON Edge: ${error instanceof Error ? error.message : String(error)}`,
         );
     } finally {
       launching = false;

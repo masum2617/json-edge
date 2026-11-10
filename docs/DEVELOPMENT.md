@@ -1,6 +1,6 @@
 # Development
 
-Use Node.js 22.14+ or Node 24 LTS and npm. Install with `npm ci`, then `npm run compile`. Open the project folder and press F5. In the Extension Development Host, click the JSON Twist icon or run JSON Twist: Open.
+Use Node.js 22.14+ or Node 24 LTS and npm. Install with `npm ci`, then `npm run compile`. Open the project folder and press F5. In the Extension Development Host, click the JSON Edge icon or run JSON Edge: Open.
 
 ## Commands
 

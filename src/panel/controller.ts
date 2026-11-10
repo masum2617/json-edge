@@ -32,8 +32,8 @@ export class EdgeCasePanel implements vscode.Disposable {
     readEditor: () => string,
   ): Promise<EdgeCasePanel> {
     const panel = vscode.window.createWebviewPanel(
-      'jsonEdgeCaseMaker',
-      'JSON Twist',
+      'jsonEdge',
+      'JSON Edge',
       vscode.ViewColumn.Beside,
       {
         enableScripts: true,

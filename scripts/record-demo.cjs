@@ -15,12 +15,10 @@ const manifest = require('../package.json');
     throw new Error(
       'Set VSCODE_EXECUTABLE_PATH and FFMPEG_PATH. See docs/DEVELOPMENT.md.',
     );
-  const temp = await fs.mkdtemp(
-    path.join(os.tmpdir(), 'json-twist-recording-'),
-  );
+  const temp = await fs.mkdtemp(path.join(os.tmpdir(), 'json-edge-recording-'));
   const profile = path.join(temp, 'profile');
   const extensions = path.join(temp, 'extensions');
-  const workspace = path.join(temp, 'json-twist-demo');
+  const workspace = path.join(temp, 'json-edge-demo');
   const frames = path.join(temp, 'frames');
   await Promise.all([
     fs.mkdir(path.join(profile, 'User'), { recursive: true }),
@@ -134,7 +132,7 @@ const manifest = require('../package.json');
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page
       .locator('.activitybar')
-      .getByRole('tab', { name: /JSON Twist/ })
+      .getByRole('tab', { name: /JSON Edge/ })
       .click();
     let frame;
     async function bindFrame() {
@@ -294,7 +292,7 @@ const manifest = require('../package.json');
         'yuv420p',
         '-movflags',
         '+faststart',
-        'docs/media/json-twist-demo.mp4',
+        'docs/media/json-edge-demo.mp4',
       ],
       { stdio: 'inherit' },
     );
@@ -306,12 +304,12 @@ const manifest = require('../package.json');
         '[0:v]scale=1280:-2:flags=lanczos,split[a][b];[a]palettegen=max_colors=128:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=3:diff_mode=rectangle',
         '-loop',
         '0',
-        'docs/media/json-twist-demo.gif',
+        'docs/media/json-edge-demo.gif',
       ],
       { stdio: 'inherit' },
     );
     const outputs = await Promise.all(
-      ['json-twist-demo.gif', 'json-twist-demo.mp4'].map(async (name) => ({
+      ['json-edge-demo.gif', 'json-edge-demo.mp4'].map(async (name) => ({
         file: name,
         bytes: (await fs.stat(path.join('docs/media', name))).size,
       })),

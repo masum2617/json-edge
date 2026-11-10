@@ -106,7 +106,7 @@ const manifest = require('../package.json');
     // One Activity Bar click opens the editor directly; no second button.
     const activity = page
       .locator('.activitybar')
-      .getByRole('tab', { name: /JSON Twist/ });
+      .getByRole('tab', { name: /JSON Edge/ });
     await activity.click();
     let frame;
     await expect
@@ -134,7 +134,7 @@ const manifest = require('../package.json');
     await activity.click();
     await expect(page.locator('.part.sidebar')).toBeHidden();
     await expect(
-      page.locator('.tab').filter({ hasText: 'JSON Twist' }),
+      page.locator('.tab').filter({ hasText: 'JSON Edge' }),
     ).toHaveCount(1);
     await frame
       .getByRole('button', {
@@ -253,7 +253,7 @@ const manifest = require('../package.json');
       await page.locator('.quick-input-widget').waitFor({ state: 'hidden' });
       await page.keyboard.press('Meta+a');
       await page.keyboard.press('F1');
-      await page.locator('.quick-input-widget input').fill('>JSON Twist: Open');
+      await page.locator('.quick-input-widget input').fill('>JSON Edge: Open');
       await page.keyboard.press('Enter');
       await frame
         .getByRole('button', { name: 'Load from Active Editor' })

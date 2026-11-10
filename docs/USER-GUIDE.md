@@ -1,14 +1,14 @@
-# Using JSON Twist
+# Using JSON Edge
 
 ## Install a local VSIX
 
-Run **Extensions: Install from VSIX…** in VS Code, choose `json-twist-0.1.5.vsix`, then reload the window. Published releases can also be installed using the Marketplace listing’s Install button.
+Run **Extensions: Install from VSIX…** in VS Code, choose `json-edge-0.1.6.vsix`, then reload the window. Published releases can also be installed using the Marketplace listing’s Install button.
 
-Local development builds previously used the package identity `local-development.json-edge-case-maker`. The public package name is `json-twist`; published builds use the release publisher’s namespace. Uninstall older local-development builds before installing a build with a different identity, so duplicate JSON Twist commands do not conflict. In Extensions, search `@installed JSON Twist`, open the gear menu for the old build, and choose Uninstall.
+JSON Edge uses `masum-hasan.json-edge`. JSON Twist (`masum-hasan.json-twist`) is a separate earlier listing. Install JSON Edge explicitly and uninstall JSON Twist if you no longer need it. Earlier local-development builds are also separate extensions.
 
 ## Open and supply input
 
-Click the braces/arrows icon in the primary Activity Bar, or run **JSON Twist: Open**. The full generator opens on the right. Repeated clicks reveal the same panel, preserving your work. If the icon is hidden, right-click the Activity Bar and enable JSON Twist.
+Click the braces/arrows icon in the primary Activity Bar, or run **JSON Edge: Open**. The full generator opens on the right. Repeated clicks reveal the same panel, preserving your work. If the icon is hidden, right-click the Activity Bar and enable JSON Edge.
 
 The initial input is the selection from your last active editor. With no selection, the whole JSON/JSONC document is used; otherwise the panel opens empty. Paste JSON directly or use **Load from Active Editor**. No source file needs to be saved, and source documents are never edited.
 
@@ -70,4 +70,4 @@ Input is capped at 1 MiB UTF-8, depth 32 edges below the root, and 2 MiB combine
 
 Unsafe integers/non-finite numbers are rejected. Encode large IDs as strings. Ordinary decimal values use JavaScript number semantics.
 
-Use desktop VS Code and local folders. Browser-hosted VS Code, remote development and relocated Activity Bar launcher views are outside the verified scope. Keep the launcher in its default primary Activity Bar location. Report reproducible problems with synthetic JSON via [GitHub Issues](https://github.com/masum2617/json-twist/issues).
+Use desktop VS Code and local folders. Browser-hosted VS Code, remote development and relocated Activity Bar launcher views are outside the verified scope. Keep the launcher in its default primary Activity Bar location. Report reproducible problems with synthetic JSON via [GitHub Issues](https://github.com/masum2617/json-edge/issues).

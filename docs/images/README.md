@@ -1,4 +1,4 @@
-# JSON Twist screenshots
+# JSON Edge screenshots
 
 These PNGs show the actual installed desktop extension, using synthetic profile data only. They are embedded or linked in the public README.
 
@@ -7,4 +7,4 @@ These PNGs show the actual installed desktop extension, using synthetic profile 
 3. [Preview generated JSON](marketplace-preview.png) — clickable virtual files and the selected null-value payload.
 4. [Convert and fill a snippet](marketplace-snippets.png) — generic profile properties with editable dummy values.
 
-For motion, see the [GIF](../media/json-twist-demo.gif) or [MP4](../media/json-twist-demo.mp4). Reproduce them with the dedicated recorder documented in [Development](../DEVELOPMENT.md).
+For motion, see the [GIF](../media/json-edge-demo.gif) or [MP4](../media/json-edge-demo.mp4). Reproduce them with the dedicated recorder documented in [Development](../DEVELOPMENT.md).

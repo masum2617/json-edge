@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.6
+
+- Rename the product to JSON Edge - The Edge Case Maker.
+- Publish under the new identity `masum-hasan.json-edge`, with repository `masum2617/json-edge`.
+- Update commands, Activity Bar contribution, UI, documentation and demo media to JSON Edge.
+- JSON Twist (`masum-hasan.json-twist`) remains a separate previous listing; installed users must install JSON Edge explicitly.
+
 ## 0.1.5 — Marketplace release candidate
 
 - Prepare the JSON Twist package identity, repository/issue links and Testing category for the first public release.

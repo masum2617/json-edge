@@ -17,8 +17,8 @@ for (const key of ['repository', 'bugs', 'homepage']) {
   if (!value || !value.startsWith('https://'))
     errors.push(`Supply a public HTTPS ${key} URL.`);
 }
-if (manifest.name !== 'json-twist')
-  errors.push('The first public package identity must be json-twist.');
+if (manifest.name !== 'json-edge')
+  errors.push('The current package identity must be json-edge.');
 const icon =
   manifest.icon && fs.existsSync(manifest.icon)
     ? fs.readFileSync(manifest.icon)
@@ -38,8 +38,8 @@ for (const file of [
   'docs/USER-GUIDE.md',
   'docs/PRIVACY.md',
   'docs/PUBLISHING.md',
-  'docs/media/json-twist-demo.gif',
-  'docs/media/json-twist-demo.mp4',
+  'docs/media/json-edge-demo.gif',
+  'docs/media/json-edge-demo.mp4',
   'docs/images/marketplace-input.png',
   'docs/images/marketplace-preview.png',
   'docs/images/marketplace-snippets.png',
@@ -64,8 +64,8 @@ for (const file of ['README.md', 'CONTRIBUTING.md', ...publicTextFiles('docs')])
   if (privateExample.test(fs.readFileSync(file, 'utf8')))
     errors.push(`Replace project-specific examples in ${file}.`);
 if (
-  fs.existsSync('docs/media/json-twist-demo.gif') &&
-  fs.statSync('docs/media/json-twist-demo.gif').size > 5 * 1024 * 1024
+  fs.existsSync('docs/media/json-edge-demo.gif') &&
+  fs.statSync('docs/media/json-edge-demo.gif').size > 5 * 1024 * 1024
 )
   errors.push('Optimize the README GIF to 5 MiB or less.');
 if (errors.length) {
