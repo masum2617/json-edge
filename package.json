@@ -3,7 +3,7 @@
   "displayName": "JSON Twist - Edge Case Generator",
   "description": "Create JSON edge-case inputs with missing fields, nulls, empty values and wrong types. Preview and copy locally.",
   "version": "0.1.5",
-  "publisher": "local-development",
+  "publisher": "masum-hasan",
   "license": "MIT",
   "engines": {
     "vscode": "^1.100.0"
@@ -96,7 +96,7 @@
     "@playwright/test": "^1.56.0",
     "@types/node": "^22.0.0",
     "@types/vscode": "1.100.0",
-    "@vscode/test-electron": "^2.5.2",
+    "@vscode/test-electron": "^3.1.0",
     "@vscode/vsce": "^3.6.0",
     "eslint": "^10.14.0",
     "prettier": "^3.0.0",

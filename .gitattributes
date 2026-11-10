@@ -1,0 +1,9 @@
+# Keep checkouts consistent with Prettier, including on Windows.
+* text=auto eol=lf
+
+# Media and packaged extensions must retain their original bytes.
+*.png binary
+*.gif binary
+*.mp4 binary
+*.vsix binary
+*.zip binary

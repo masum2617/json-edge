@@ -1,6 +1,6 @@
 # Publish JSON Twist to the VS Code Marketplace
 
-This is the first-release guide for the repository owner. No Marketplace publication has been performed. The repository is public at [masum2617/json-twist](https://github.com/masum2617/json-twist), with `main` as its default branch. The only missing account metadata is your real Marketplace publisher ID.
+This is the first-release guide for the repository owner. No Marketplace publication has been performed. The repository is public at [masum2617/json-twist](https://github.com/masum2617/json-twist), with `main` as its default branch. The owner has created the publisher `masum-hasan`, and the manifest uses that ID. The extension identifier is `masum-hasan.json-twist`.
 
 The manual VSIX upload route below avoids setting up publishing tokens. Microsoft also supports CLI publishing; manual upload is a choice, not a special first-release requirement. [Official publishing guide](https://code.visualstudio.com/api/working-with-extensions/publishing-extension).
 
@@ -22,7 +22,7 @@ npm pkg set publisher=YOUR_PUBLISHER_ID
 npm run release:check
 ```
 
-Until you replace `local-development`, the release check intentionally fails. Do not upload a VSIX with a placeholder publisher. The first public package name is `json-twist`; the older `json-edge-case-maker` identity was used for local development. The visible name is JSON Twist — Edge Case Generator, and the existing command ID remains stable.
+The manifest now uses `masum-hasan`; the release check rejects placeholder publisher IDs. Do not upload a VSIX with a placeholder publisher. The first public package name is `json-twist`; the older `json-edge-case-maker` identity was used for local development. The visible name is JSON Twist — Edge Case Generator, and the existing command ID remains stable.
 
 Review `package.json`: version, publisher, description, Testing category, repository, issues URL, homepage and icon. The repository metadata and `main` branch are already configured. The first candidate is 0.1.5. After a version has been published, increment it before publishing another build.
 
@@ -95,4 +95,4 @@ If animation does not render in the listing, keep the static preview image visib
 
 Prepared locally: public docs, generic examples, GIF/MP4, screenshots, repository metadata, identity/media gate, package tooling and local verification.
 
-Still required: create/confirm your publisher, set its ID, commit/push the public assets, check remote CI, rebuild/test the final publisher-specific VSIX, upload it, and verify its live listing. No account creation, Git push or Marketplace upload is performed by the preparation scripts.
+Publisher creation and manifest configuration are complete. Before publication, confirm public assets and remote CI, install/test the publisher-specific VSIX, upload it, and verify its live listing. No account creation, Git push or Marketplace upload is performed by the preparation scripts.

@@ -1,6 +1,6 @@
 # Release preparation snapshot — 2026-11-10
 
-This records local preparation of JSON Twist 0.1.5. It does not claim GitHub changes were pushed, remote CI ran, a publisher exists, or Marketplace publication occurred.
+This records local preparation of JSON Twist 0.1.5. It does not claim GitHub changes were pushed, remote CI ran, or Marketplace publication occurred. The owner has confirmed creation of publisher `masum-hasan`.
 
 ## Completed locally
 
@@ -15,15 +15,15 @@ This records local preparation of JSON Twist 0.1.5. It does not claim GitHub cha
 - The public GitHub repository and main branch were verified anonymously. Package README image/video links rewrite to HTTPS GitHub main URLs. Runtime assets/libraries, GIF, current screenshots and docs are included; development sources/tests/tooling and the hosted MP4 companion are excluded.
 - Read-only code/release review found no actionable issues in the preparation changes.
 
-The demo manifest records current frame count, duration, version and output sizes. Screenshot/GIF dimensions were verified separately. The local package remains `local-development.json-twist`; it is a preview, not the final publisher-specific upload.
+The demo manifest records current frame count, duration, version and output sizes. Screenshot/GIF dimensions were verified separately. The manifest now uses `masum-hasan.json-twist`; rebuild the package after changing publisher metadata.
 
 ## Expected release gate
 
-`npm run release:check` intentionally reports the missing Marketplace publisher ID. With a non-placeholder ID supplied only in process memory for the check, every other local identity/media requirement passes. That fixture does not establish ownership and was never saved to the manifest.
+The owner supplied publisher ID `masum-hasan`, which is now saved in the manifest. The release check validates local metadata and assets; it does not authenticate publisher ownership or establish remote CI/publication status.
 
 ## Owner steps still required
 
-1. Create a Marketplace publisher and set its exact ID.
+1. Publisher `masum-hasan` has been created and configured (completed).
 2. Review, commit and push the intended source/docs/media to GitHub main; verify public asset URLs.
 3. Run and inspect the actual Linux/macOS/Windows CI jobs. Their workflow is configured but those remote runs were not executed here.
 4. Build and install/test the final publisher-specific VSIX.

@@ -38,3 +38,11 @@ The local optional smoke script `scripts/smoke-editor.cjs` also checks real edit
 ## Release verification
 
 CI defines Linux, macOS and Windows jobs using Node 24. A workflow definition is not evidence those jobs passed: run and inspect the actual checks before public upload. The [publishing guide](PUBLISHING.md) lists the owner steps, public asset checks and release gate.
+
+## Cross-platform CI troubleshooting
+
+The test tooling requires Node.js 22 or newer (CI uses Node 24). `@vscode/test-electron` 3.1+ resolves the current macOS application executable from the app bundle; older versions may try the removed `Contents/MacOS/Electron` path and fail with `ENOENT`. Keep the runner and `package-lock.json` updated together rather than renaming VS Code binaries.
+
+`.gitattributes` keeps text checkouts as LF even when Windows Git uses `core.autocrlf=true`. Prettier explicitly expects LF. If an existing Windows checkout still has CRLF, run `npm run format` and then `npm run check`; a fresh CI checkout applies the attributes automatically. Binary media are excluded from newline conversion.
+
+These are validation workflow changes. They do not require publishing a new Marketplace version unless extension runtime or packaged content also changes. Push the fixes and inspect all three operating-system jobs before claiming cross-platform verification.
