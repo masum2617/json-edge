@@ -450,3 +450,13 @@ footer {
   justify-content: flex-start;
   flex-wrap: wrap;
 }
+
+.copy-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.copy-actions .hint {
+  margin: 0;
+}

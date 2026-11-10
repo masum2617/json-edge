@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.5 — Marketplace release candidate
+
+- Prepare the JSON Twist package identity, repository/issue links and Testing category for the first public release.
+- Replace project-specific examples and dummy-value rules with generic profile data across public docs, tests and demos.
+- Add an actual recorded GIF/MP4 demo, Marketplace screenshots, user/privacy/development guides and step-by-step publisher instructions.
+- Track public documentation in Git and gate release packaging on real publisher metadata and media readiness.
+
+Publication is pending an owned Marketplace publisher ID and completion of the publishing checklist.
+
 ## 0.1.4 — Local update
 
 - Open/reveal the full generator directly from an Activity Bar icon click.

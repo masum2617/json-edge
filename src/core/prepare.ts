@@ -177,9 +177,6 @@ function exampleFor(key: string): JsonValue {
   if (name.includes('phone')) return '+15555550123';
   if (name.includes('date')) return '2026-01-01';
   if (name.includes('url')) return 'https://example.com';
-  if (name === 'batchnumber') return 'BATCH-001';
-  if (name === 'suppliername') return 'Example Supplier';
-  if (name === 'warehousename') return 'Main Warehouse';
   if (name === 'city') return 'Dhaka';
   if (name === 'name' || name.endsWith('name')) return 'Alex';
   return 'example';

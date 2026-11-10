@@ -1,22 +1,23 @@
 {
-  "name": "json-edge-case-maker",
+  "name": "json-twist",
   "displayName": "JSON Twist - Edge Case Generator",
-  "description": "Turn example JSON into labelled missing, null, empty and wrong-type input fixtures.",
-  "version": "0.1.4",
+  "description": "Create JSON edge-case inputs with missing fields, nulls, empty values and wrong types. Preview and copy locally.",
+  "version": "0.1.5",
   "publisher": "local-development",
   "license": "MIT",
   "engines": {
     "vscode": "^1.100.0"
   },
   "categories": [
+    "Testing",
     "Other"
   ],
   "keywords": [
     "json",
-    "testing",
-    "fixtures",
     "edge cases",
-    "developer tools"
+    "test data",
+    "fixtures",
+    "testing"
   ],
   "icon": "media/icon.png",
   "main": "./dist/src/extension.js",
@@ -82,7 +83,9 @@
     "package": "node scripts/package.cjs",
     "package:list": "vsce ls",
     "test:ui": "npm run compile && playwright test",
-    "release:check": "node scripts/release-check.cjs"
+    "release:check": "node scripts/release-check.cjs",
+    "package:release": "npm run release:check && npm run check && npm run package",
+    "demo:record": "node scripts/record-demo.cjs"
   },
   "dependencies": {
     "acorn": "^8.19.0",
@@ -103,5 +106,13 @@
   "overrides": {
     "glob": "^14.0.4",
     "minimatch": "^11.0.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/masum2617/json-twist.git"
+  },
+  "bugs": {
+    "url": "https://github.com/masum2617/json-twist/issues"
+  },
+  "homepage": "https://github.com/masum2617/json-twist#readme"
 }

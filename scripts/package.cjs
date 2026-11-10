@@ -9,6 +9,7 @@ vsce
     packagePath: `artifacts/${manifest.name}-${manifest.version}.vsix`,
     allowMissingRepository: !manifest.repository,
     rewriteRelativeLinks: Boolean(manifest.repository),
+    githubBranch: 'main',
   })
   .catch((error) => {
     console.error(error);

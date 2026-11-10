@@ -161,8 +161,10 @@ const manifest = require('../package.json');
         null,
         'Copy uses the selected virtual file',
       );
-    await fs.mkdir('docs/images', { recursive: true });
-    await page.screenshot({ path: 'docs/images/vscode-activity-launch.png' });
+    await fs.mkdir('test-results/editor-smoke', { recursive: true });
+    await page.screenshot({
+      path: 'test-results/editor-smoke/activity-launch.png',
+    });
     await page.keyboard.press('F1');
     await page
       .locator('.quick-input-widget input')
@@ -180,11 +182,11 @@ const manifest = require('../package.json');
       })
       .toBe(true);
     await frame.evaluate(() => window.scrollTo(0, 0));
-    await page.screenshot({ path: 'docs/images/vscode-demo.png' });
+    await page.screenshot({ path: 'test-results/editor-smoke/input.png' });
     await frame
       .getByRole('button', { name: 'Copy JSON' })
       .scrollIntoViewIfNeeded();
-    await page.screenshot({ path: 'docs/images/vscode-results.png' });
+    await page.screenshot({ path: 'test-results/editor-smoke/results.png' });
     assert.equal(
       (await fs.readdir(temp)).filter((name) =>
         name.startsWith('json-edge-cases-'),
@@ -211,6 +213,11 @@ const manifest = require('../package.json');
       await folderInput.fill(temp + path.sep);
       await page.keyboard.press('Enter');
     }
+    // Directory creation precedes sequential writes; wait for the actual completion notice.
+    await expect(frame.getByRole('status')).toContainText(
+      'Exported 4 cases and index.json',
+      { timeout: 15000 },
+    );
     await expect
       .poll(
         async () =>
@@ -257,33 +264,33 @@ const manifest = require('../package.json');
       assert.equal(await fs.readFile(file, 'utf8'), snippet);
     }
     await loadSelection(
-      'batch-snippet.js',
-      '{\n batchNumber: "",\n openingQty: "",\n salesPrice: "",\n purchasePrice: "",\n}',
+      'profile-fields-snippet.js',
+      '{\n name: "",\n age: "",\n email: "",\n isActive: "",\n}',
       {
-        batchNumber: '',
-        openingQty: '',
-        salesPrice: '',
-        purchasePrice: '',
+        name: '',
+        age: '',
+        email: '',
+        isActive: '',
       },
     );
     await loadSelection(
-      'supplier-snippet.js',
-      'supplierId,\n supplierName: supplier?.supplierName,\n warehouseId,\n warehouseName: warehouse?.name,',
+      'profile-snippet.js',
+      'userId,\n name: profile?.name,\n isActive,\n email: profile?.email,',
       {
-        supplierId: '',
-        supplierName: '',
-        warehouseId: '',
-        warehouseName: '',
+        userId: '',
+        name: '',
+        isActive: '',
+        email: '',
       },
     );
     await frame.getByRole('button', { name: 'Fill dummy values' }).click();
     await expect(frame.getByLabel('Example JSON', { exact: true })).toHaveValue(
       JSON.stringify(
         {
-          supplierId: 1,
-          supplierName: 'Example Supplier',
-          warehouseId: 1,
-          warehouseName: 'Main Warehouse',
+          userId: 1,
+          name: 'Alex',
+          isActive: true,
+          email: 'alex@example.com',
         },
         null,
         2,

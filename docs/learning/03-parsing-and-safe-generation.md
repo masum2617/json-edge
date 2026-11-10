@@ -10,7 +10,7 @@ Large integers and non-finite numeric results are rejected. Otherwise a JSON num
 
 ## Preparing editor snippets safely
 
-`src/core/prepare.ts` is a separate preparation boundary. `prepareInput` first tries strict JSON; otherwise Acorn parses a wrapped object expression into an abstract syntax tree. It never evaluates that tree. Only JSON-compatible literal values, object properties and arrays are copied. Expressions such as `supplier?.supplierName` or shorthand `supplierId` become empty strings. A returned note reports the replacements. Spreads, computed keys and methods are rejected because their data cannot be known without execution.
+`src/core/prepare.ts` is a separate preparation boundary. `prepareInput` first tries strict JSON; otherwise Acorn parses a wrapped object expression into an abstract syntax tree. It never evaluates that tree. Only JSON-compatible literal values, object properties and arrays are copied. Expressions such as `profile?.name` or shorthand `userId` become empty strings. A returned note reports the replacements. Spreads, computed keys and methods are rejected because their data cannot be known without execution.
 
 The scanner bounds nesting/token work before parsing. Conversion checks duplicates before inserting into null-prototype objects, then runs the ordinary strict analyzer on the formatted result. Even the strict-JSON fast path rechecks formatted size because pretty-printing can expand compact data beyond 1 MiB. A failed Format action leaves the panel text intact.
 

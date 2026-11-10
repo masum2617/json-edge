@@ -76,6 +76,7 @@ declare function acquireVsCodeApi(): {
         : 'Select all';
   }
   function invalidate(): void {
+    element('copy-feedback').textContent = '';
     pendingPreparation = false;
     revision++;
     fresh = false;
@@ -161,6 +162,7 @@ declare function acquireVsCodeApi(): {
     }
   }
   function preview(id: string): void {
+    element('copy-feedback').textContent = '';
     activeCase = id;
     const item = cases.find((entry) => entry.id === id);
     if (!item) return;
@@ -348,6 +350,7 @@ declare function acquireVsCodeApi(): {
     });
   });
   copy.addEventListener('click', () => {
+    element('copy-feedback').textContent = '';
     if (fresh && activeCase)
       send({ type: 'copy', revision, ids: [activeCase] });
   });
@@ -432,6 +435,9 @@ declare function acquireVsCodeApi(): {
         controls();
         break;
       case 'notice':
+        // Keep copy feedback visible even when the page-level status is above the viewport.
+        if (message.message === 'JSON copied to clipboard.')
+          element('copy-feedback').textContent = 'Copied';
         status(message.message);
         break;
     }

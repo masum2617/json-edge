@@ -128,6 +128,7 @@ test('generates previews, copies, cancels export, and invalidates changed input/
   await page
     .getByText('Save files to disk (optional)', { exact: true })
     .click();
+  await expect(page.locator('#copy-feedback')).toHaveText('Copied');
   await page.getByRole('button', { name: 'Export selected' }).click();
   await expect(page.getByRole('status')).toContainText('Export cancelled');
   await page
@@ -248,52 +249,39 @@ test('variation changes during pending analysis recover the field list', async (
   ).toBeEnabled();
 });
 
-test('loads both reported editor snippets as strict formatted JSON', async ({
+test('loads object and property-list snippets as strict formatted JSON', async ({
   page,
 }) => {
   const input = page.getByLabel('Example JSON', { exact: true });
   await page.evaluate(() => {
-    window.editorText =
-      '{batchNumber:"",openingQty:"",salesPrice:"",purchasePrice:"",}';
+    window.editorText = '{name:"",age:"",email:"",isActive:"",}';
   });
   await page.getByRole('button', { name: 'Load from Active Editor' }).click();
   await expect(input).toHaveValue(
-    JSON.stringify(
-      { batchNumber: '', openingQty: '', salesPrice: '', purchasePrice: '' },
-      null,
-      2,
-    ),
+    JSON.stringify({ name: '', age: '', email: '', isActive: '' }, null, 2),
   );
-  await page
-    .getByRole('checkbox', { name: '/batchNumber', exact: true })
-    .check();
+  await page.getByRole('checkbox', { name: '/name', exact: true }).check();
   await expect(page.locator('#input-error')).toBeEmpty();
   await page.evaluate(() => {
     window.editorText =
-      'supplierId, supplierName: supplier?.supplierName, warehouseId, warehouseName: warehouse?.name,';
+      'userId, name: profile?.name, isActive, email: profile?.email,';
   });
   await page.getByRole('button', { name: 'Load from Active Editor' }).click();
   await expect(input).toHaveValue(
-    JSON.stringify(
-      { supplierId: '', supplierName: '', warehouseId: '', warehouseName: '' },
-      null,
-      2,
-    ),
+    JSON.stringify({ userId: '', name: '', isActive: '', email: '' }, null, 2),
   );
   await expect(page.locator('#input-note')).toContainText(
     '4 runtime expressions',
   );
-  await page
-    .getByRole('checkbox', { name: '/supplierName', exact: true })
-    .check();
+  await page.getByRole('checkbox', { name: '/name', exact: true }).check();
   await page.getByRole('button', { name: 'Fill dummy values' }).click();
   await expect(input).toHaveValue(
     JSON.stringify(
       {
-        supplierId: 1,
-        supplierName: 'Example Supplier',
-        warehouseId: 1,
-        warehouseName: 'Main Warehouse',
+        userId: 1,
+        name: 'Alex',
+        isActive: true,
+        email: 'alex@example.com',
       },
       null,
       2,
@@ -311,11 +299,9 @@ test('formats pasted snippets, invalidates results, and reports unsupported prop
   await makeCases(page);
   await page.getByRole('button', { name: 'Format JSON', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Copy JSON' })).toBeDisabled();
-  await input.fill('supplierId, supplierName: supplier?.supplierName,');
+  await input.fill('userId, name: profile?.name,');
   await page.getByRole('button', { name: 'Format JSON', exact: true }).click();
-  await expect(input).toHaveValue(
-    '{\n  "supplierId": "",\n  "supplierName": ""\n}',
-  );
+  await expect(input).toHaveValue('{\n  "userId": "",\n  "name": ""\n}');
   await input.fill('{ [runtimeKey]: 1 }');
   await page.getByRole('button', { name: 'Format JSON', exact: true }).click();
   await expect(page.getByRole('status')).toContainText(

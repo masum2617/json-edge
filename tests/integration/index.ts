@@ -33,18 +33,18 @@ export async function run(): Promise<void> {
     join(extension.extensionPath, 'dist/src/core/prepare'),
   ) as typeof import('../../src/core/prepare');
   const snippet =
-    'supplierId, supplierName: supplier?.supplierName, warehouseId, warehouseName: warehouse?.name,';
+    'userId, name: profile?.name, isActive, email: profile?.email,';
   assert.deepEqual(JSON.parse(prepareInput(snippet).text), {
-    supplierId: '',
-    supplierName: '',
-    warehouseId: '',
-    warehouseName: '',
+    userId: '',
+    name: '',
+    isActive: '',
+    email: '',
   });
   assert.deepEqual(JSON.parse(fillDummyValues(snippet).text), {
-    supplierId: 1,
-    supplierName: 'Example Supplier',
-    warehouseId: 1,
-    warehouseName: 'Main Warehouse',
+    userId: 1,
+    name: 'Alex',
+    isActive: true,
+    email: 'alex@example.com',
   });
   assert.match(
     await readFile(

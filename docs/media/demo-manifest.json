@@ -1,0 +1,18 @@
+{
+  "extension": "JSON Twist - Edge Case Generator",
+  "version": "0.1.5",
+  "frames": 77,
+  "fps": 6,
+  "durationSeconds": 12.83,
+  "source": "Actual installed VSIX in isolated desktop VS Code; synthetic profile data; no simulated product UI.",
+  "outputs": [
+    {
+      "file": "json-twist-demo.gif",
+      "bytes": 345986
+    },
+    {
+      "file": "json-twist-demo.mp4",
+      "bytes": 147457
+    }
+  ]
+}

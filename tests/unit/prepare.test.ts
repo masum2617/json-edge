@@ -4,30 +4,28 @@ import { prepareInput, fillDummyValues } from '../../src/core/prepare';
 import { analyzeJson } from '../../src/core/analyze';
 import { parseClientMessage } from '../../src/protocol';
 
-const batch =
-  '{ batchNumber: "", openingQty: "", salesPrice: "", purchasePrice: "", }';
-const supplier =
-  'supplierId, supplierName: supplier?.supplierName, warehouseId, warehouseName: warehouse?.name,';
+const profile = '{ name: "", age: "", email: "", isActive: "", }';
+const snippet = 'userId, name: profile?.name, isActive, email: profile?.email,';
 
-test('loads the reported unquoted-key object with trailing comma as formatted JSON', () => {
-  const prepared = prepareInput(batch);
+test('loads an unquoted-key object with trailing comma as formatted JSON', () => {
+  const prepared = prepareInput(profile);
   assert.deepEqual(JSON.parse(prepared.text), {
-    batchNumber: '',
-    openingQty: '',
-    salesPrice: '',
-    purchasePrice: '',
+    name: '',
+    age: '',
+    email: '',
+    isActive: '',
   });
-  assert.match(prepared.text, /\n  "openingQty": ""/);
+  assert.match(prepared.text, /\n  "age": ""/);
   assert.doesNotThrow(() => analyzeJson(prepared.text));
 });
 
 test('wraps selected property lists and replaces shorthand and optional chains', () => {
-  const prepared = prepareInput(supplier);
+  const prepared = prepareInput(snippet);
   assert.deepEqual(JSON.parse(prepared.text), {
-    supplierId: '',
-    supplierName: '',
-    warehouseId: '',
-    warehouseName: '',
+    userId: '',
+    name: '',
+    isActive: '',
+    email: '',
   });
   assert.match(prepared.note, /4 runtime expressions/);
 });
@@ -90,18 +88,18 @@ test('rejects ambiguous or malformed selections without silently dropping fields
 });
 
 test('dummy values are deterministic hints and preserve existing data', () => {
-  const prepared = fillDummyValues(supplier);
+  const prepared = fillDummyValues(snippet);
   assert.deepEqual(JSON.parse(prepared.text), {
-    supplierId: 1,
-    supplierName: 'Example Supplier',
-    warehouseId: 1,
-    warehouseName: 'Main Warehouse',
+    userId: 1,
+    name: 'Alex',
+    isActive: true,
+    email: 'alex@example.com',
   });
-  assert.deepEqual(JSON.parse(fillDummyValues(batch).text), {
-    batchNumber: 'BATCH-001',
-    openingQty: 10,
-    salesPrice: 10,
-    purchasePrice: 10,
+  assert.deepEqual(JSON.parse(fillDummyValues(profile).text), {
+    name: 'Alex',
+    age: 25,
+    email: 'alex@example.com',
+    isActive: true,
   });
   const text =
     '{"email":"","isActive":null,"name":"Existing","price":0,"nested":{"city":""},"tags":[]}';
@@ -124,12 +122,12 @@ test('new preparation messages are revisioned and bounded', () => {
   });
   for (const type of ['format', 'dummy']) {
     assert.equal(
-      parseClientMessage({ type, revision: 1, text: batch }).type,
+      parseClientMessage({ type, revision: 1, text: profile }).type,
       type,
     );
     assert.throws(() => parseClientMessage({ type, revision: 1, text: {} }));
     assert.throws(() =>
-      parseClientMessage({ type, revision: -1, text: batch }),
+      parseClientMessage({ type, revision: -1, text: profile }),
     );
   }
   assert.throws(() => parseClientMessage({ type: 'loadEditor' }));

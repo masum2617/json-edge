@@ -1,6 +1,6 @@
 # Contributing
 
-This project is intentionally small enough to understand as a first VS Code extension. Use Node.js 22.14+ or 24 LTS, run `npm ci`, and follow the README development commands.
+JSON Twist is intentionally small enough to understand as a first VS Code extension. Use Node.js 22.14+ or 24 LTS, run `npm ci`, and follow the README development commands.
 
 ## Code conventions
 
@@ -17,8 +17,8 @@ CI covers unit, panel UI, extension-host, and packaged-VSIX smoke tests on Linux
 
 ## Reporting a problem
 
-Until a public repository is configured, report issues to the project owner. Once configured, use its issue tracker. Include OS, VS Code version, reproduction steps, expected/actual behavior, and a **synthetic** JSON example. Do not attach credentials or real customer data.
+Use the [GitHub issue tracker](https://github.com/masum2617/json-twist/issues). Include OS, VS Code version, reproduction steps, expected/actual behavior, and a **synthetic** JSON example. Do not attach credentials or real customer data.
 
 ## Dependency maintenance
 
-`jsonc-parser` is the only runtime dependency. Test, lint, and packaging tools are development-only. Patched `glob` and `minimatch` overrides address transitive tooling advisories; rerun the complete package tests when updating them. Validate with `npm audit` and `npm audit --omit=dev` when registry access is available.
+`jsonc-parser` and `acorn` are the runtime dependencies. Test, lint, and packaging tools are development-only. Patched `glob` and `minimatch` overrides address transitive tooling advisories; rerun the complete package tests when updating them. Validate with `npm audit` and `npm audit --omit=dev` when registry access is available.
