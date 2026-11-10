@@ -45,4 +45,6 @@ The test tooling requires Node.js 22 or newer (CI uses Node 24). `@vscode/test-e
 
 `.gitattributes` keeps text checkouts as LF even when Windows Git uses `core.autocrlf=true`. Prettier explicitly expects LF. If an existing Windows checkout still has CRLF, run `npm run format` and then `npm run check`; a fresh CI checkout applies the attributes automatically. Binary media are excluded from newline conversion.
 
+On Windows, `scripts/test-package.cjs` installs the VSIX by running the bundled `resources/app/out/cli.js` through `Code.exe` with `ELECTRON_RUN_AS_NODE=1`. Directly spawning `bin/code.cmd` with `execFileSync` fails with `EINVAL`. Keeping arguments as an array avoids shell quoting issues in paths with spaces. The environment override applies only to installation, not the subsequent extension-host tests.
+
 These are validation workflow changes. They do not require publishing a new Marketplace version unless extension runtime or packaged content also changes. Push the fixes and inspect all three operating-system jobs before claiming cross-platform verification.

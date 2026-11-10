@@ -16,11 +16,19 @@ const manifest = require('../package.json');
     require('@vscode/test-electron').resolveCliArgsFromVSCodeExecutablePath(
       executable,
     );
-  const [command, ...args] = cli;
+  const [cliCommand, ...args] = cli;
+  // Windows cannot spawn a .cmd file directly. Run the same CLI entry point
+  // through Code.exe in Node mode, preserving argument boundaries without a shell.
+  const isWindows = process.platform === 'win32';
+  const command = isWindows ? executable : cliCommand;
+  const cliEntry = isWindows
+    ? [path.join(path.dirname(executable), 'resources', 'app', 'out', 'cli.js')]
+    : [];
   try {
     cp.execFileSync(
       command,
       [
+        ...cliEntry,
         ...args,
         '--user-data-dir',
         path.join(temp, 'profile'),
@@ -30,7 +38,12 @@ const manifest = require('../package.json');
         path.resolve(`artifacts/${manifest.name}-${manifest.version}.vsix`),
         '--force',
       ],
-      { stdio: 'inherit' },
+      {
+        stdio: 'inherit',
+        env: isWindows
+          ? { ...process.env, ELECTRON_RUN_AS_NODE: '1' }
+          : process.env,
+      },
     );
     const installed = (await fs.readdir(path.join(temp, 'extensions'))).find(
       (name) => name.startsWith(`${manifest.publisher}.${manifest.name}-`),
