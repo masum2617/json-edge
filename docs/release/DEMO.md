@@ -1,29 +1,20 @@
-# Demo assets and storyboard
+# JSON Edge demo video
 
-The README uses a short looping GIF because it can be embedded as an image. A normal MP4 link provides a sharper video/download alternative. Inline Marketplace video playback is not assumed. Verify the actual listing after upload. See [Microsoft-source notes](MARKETPLACE-NOTES.md).
+The only demonstration video is [jsonedgedemo.mp4](https://github.com/masum2617/json-edge/blob/main/docs/media/jsonedgedemo.mp4), supplied by the project owner on 2026-11-12.
 
-## Assets
+The source recording is copied byte-for-byte into `docs/media/jsonedgedemo.mp4`. It has not been trimmed, transcoded or converted to an animation. The previous generated demo files and automatic demo recorder have been removed.
 
-- `docs/media/json-edge-demo.gif`: looping, silent README demonstration.
-- `docs/media/json-edge-demo.mp4`: H.264/yuv420p companion video.
-- `docs/media/demo-manifest.json`: actual frame count, duration, version and output sizes.
-- `docs/images/marketplace-editor.png`: one-click Activity Bar opening beside a source JSON document.
-- `docs/images/marketplace-input.png`: input JSON and selected field/variations.
-- `docs/images/marketplace-preview.png`: virtual file list, explanation and JSON preview.
-- `docs/images/marketplace-snippets.png`: converted profile properties and optional dummy values.
+## Verified media
 
-These are real captures of the installed extension in a temporary VS Code profile, not AI mockups. All inputs are synthetic names/emails/profile values. Breadcrumbs are hidden to avoid exposing temporary paths. No real project is opened.
+- Duration: approximately 41.37 seconds.
+- Resolution: 1920 × 1080 at 30 fps.
+- Video/audio: H.264 and AAC.
+- All streams decoded successfully. File size and SHA-256 are recorded in `docs/media/demo-manifest.json`.
 
-## Short storyboard
+## Marketplace presentation
 
-1. Show a valid profile JSON example and available variations.
-2. Select `/email`.
-3. Generate four virtual JSON files.
-4. Preview missing, null, empty and wrong-type results.
-5. Select the null case, copy JSON, and show copy feedback.
+The root README contains a prominent **Watch the JSON Edge demo video** link to the public GitHub file page. Push the recording to `main` before publishing the updated VSIX so that the link resolves publicly. The GitHub page provides the hosted video view; inline MP4 playback within the Marketplace or VS Code README is not assumed.
 
-The 0.1.6 demo is a 12-second sequence of six real native screenshots, each held for two seconds: selected input, missing, null, empty, wrong type, and verified Copied state. It shows actual app states rather than continuous pointer movement. Holds are for readability, not a performance claim. The GIF loops without narration; the README supplies a text workflow and meaningful alt text.
+The video is hosted in the repository and excluded from the runtime VSIX by `.vscodeignore`, avoiding an extra video download on every extension installation. Packaging a local video alone does not publish its public link.
 
-## Reproduce
-
-Build the VSIX, set `VSCODE_EXECUTABLE_PATH` and `FFMPEG_PATH`, then run `npm run demo:record`. The current recorder uses macOS shortcuts for the optional real-editor setup; runtime extension users do not need FFmpeg or recording dependencies. Inspect the first, middle and final frames before release, check GIF duration/size, and verify that the preview/copy data matches the selected file.
+Future demo changes should replace this owner-selected video deliberately and update its manifest. Do not regenerate older demo assets. Static documentation screenshots remain separate from the demonstration video.

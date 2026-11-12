@@ -1,18 +1,15 @@
 {
-  "extension": "JSON Edge - The Edge Case Maker",
-  "version": "0.1.6",
-  "frames": 72,
-  "fps": 6,
-  "durationSeconds": 12,
-  "source": "Six real native screenshots of installed VSIX in isolated desktop VS Code; synthetic profile data; two-second viewing holds; no simulated UI.",
-  "outputs": [
-    {
-      "file": "json-edge-demo.gif",
-      "bytes": 318818
-    },
-    {
-      "file": "json-edge-demo.mp4",
-      "bytes": 134118
-    }
-  ]
+  "file": "jsonedgedemo.mp4",
+  "source": "Owner-provided recording; copied byte-for-byte without edits or transcoding.",
+  "bytes": 11314602,
+  "sha256": "6322387bbbe78ded1dd31b646bcbf550163145f1f9177d33a033b46d20a16881",
+  "durationSeconds": 41.366667,
+  "width": 1920,
+  "height": 1080,
+  "frames": 1241,
+  "fps": 30,
+  "videoCodec": "H.264",
+  "audioCodec": "AAC",
+  "verification": "All video and audio streams decoded successfully with FFmpeg.",
+  "publicUrl": "https://github.com/masum2617/json-edge/blob/main/docs/media/jsonedgedemo.mp4"
 }

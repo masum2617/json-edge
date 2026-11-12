@@ -38,22 +38,32 @@ export function activate(context: vscode.ExtensionContext): void {
       );
     }
   }
+  async function openGenerator(): Promise<void> {
+    if (controller) {
+      controller.panel.reveal();
+      return;
+    }
+    // All callers await the same opening task instead of racing duplicate tabs.
+    if (!opening)
+      opening = createGenerator().finally(() => {
+        opening = undefined;
+      });
+    await opening;
+  }
   context.subscriptions.push(
-    vscode.commands.registerCommand('jsonEdge.open', async () => {
-      if (controller) {
-        controller.panel.reveal();
+    vscode.commands.registerCommand('jsonEdge.open', openGenerator),
+    // An internal command keeps icon toggling separate from always-open actions.
+    vscode.commands.registerCommand('jsonEdge.toggle', async () => {
+      if (controller?.panel.visible) {
+        // Same memory-clearing lifecycle as closing the generator tab manually.
+        controller.dispose();
         return;
       }
-      // All callers await the same opening task instead of racing duplicate tabs.
-      if (!opening)
-        opening = createGenerator().finally(() => {
-          opening = undefined;
-        });
-      await opening;
+      await openGenerator();
     }),
   );
   registerActivityLauncher(context, async () => {
-    await vscode.commands.executeCommand('jsonEdge.open');
+    await vscode.commands.executeCommand('jsonEdge.toggle');
   });
   context.subscriptions.push({ dispose: () => controller?.dispose() });
 }

@@ -2,13 +2,13 @@
 
 ## Install a local VSIX
 
-Run **Extensions: Install from VSIX…** in VS Code, choose `json-edge-0.1.6.vsix`, then reload the window. Published releases can also be installed using the Marketplace listing’s Install button.
+Run **Extensions: Install from VSIX…** in VS Code, choose `json-edge-0.1.8.vsix`, then reload the window. Published releases can also be installed using the Marketplace listing’s Install button.
 
 JSON Edge uses `masum-hasan.json-edge`. JSON Twist (`masum-hasan.json-twist`) is a separate earlier listing. Install JSON Edge explicitly and uninstall JSON Twist if you no longer need it. Earlier local-development builds are also separate extensions.
 
 ## Open and supply input
 
-Click the braces/arrows icon in the primary Activity Bar, or run **JSON Edge: Open**. The full generator opens on the right. Repeated clicks reveal the same panel, preserving your work. If the icon is hidden, right-click the Activity Bar and enable JSON Edge.
+Click the braces/arrows icon in the primary Activity Bar, or run **JSON Edge: Open**. The full generator opens on the right. Clicking the icon again closes the visible generator and clears its session, just like closing the editor tab. The next click reopens it. To reveal an existing panel without closing it, use **JSON Edge: Open**. If the icon is hidden, right-click the Activity Bar and enable JSON Edge.
 
 The initial input is the selection from your last active editor. With no selection, the whole JSON/JSONC document is used; otherwise the panel opens empty. Paste JSON directly or use **Load from Active Editor**. No source file needs to be saved, and source documents are never edited.
 
@@ -61,6 +61,8 @@ Import/Format JSON adds braces and quotes keys, handles single quotes/comments/t
 Enter carries indentation and adds two spaces after opening braces/brackets. Between adjacent `{}` or `[]`, it inserts an indented blank line. Full formatting is explicit so incomplete typing and the caret are preserved. Tab retains normal keyboard focus navigation.
 
 **Fill dummy values** converts the snippet, then fills only empty strings/nulls using name hints: `userId` → `1`, `name` → `"Alex"`, `email` → `"alex@example.com"`, `age` → `25`, `isActive` → `true`. Existing populated values, numbers/booleans and empty collections are preserved. These are editable guesses, not schema-aware type inference.
+
+**Clear**, next to **Fill dummy values**, empties the input and field search, removes field selections and generated results, and returns focus to the textarea. Pending import/format responses cannot restore cleared input. Copy and export stay disabled until you generate new cases. Your source document is unchanged.
 
 ## Paths, limits and troubleshooting
 

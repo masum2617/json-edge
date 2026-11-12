@@ -7,4 +7,4 @@ These PNGs show the actual installed desktop extension, using synthetic profile 
 3. [Preview generated JSON](marketplace-preview.png) — clickable virtual files and the selected null-value payload.
 4. [Convert and fill a snippet](marketplace-snippets.png) — generic profile properties with editable dummy values.
 
-For motion, see the [GIF](../media/json-edge-demo.gif) or [MP4](../media/json-edge-demo.mp4). Reproduce them with the dedicated recorder documented in [Development](../DEVELOPMENT.md).
+For the demonstration, watch the [owner-provided video](https://github.com/masum2617/json-edge/blob/main/docs/media/jsonedgedemo.mp4).

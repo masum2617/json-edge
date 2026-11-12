@@ -96,7 +96,11 @@ test.beforeEach(async ({ page }) => {
     });
   });
   await page.goto('/');
-  await expect(page.getByRole('alert')).toContainText('Paste a JSON object');
+  // Wait for the initial source reply; empty input now stays a neutral state.
+  await page.waitForFunction(() =>
+    window.sentMessages.some((m) => m.type === 'invalidate'),
+  );
+  await expect(page.locator('#input-error')).toBeEmpty();
 });
 
 async function makeCases(page) {
@@ -136,9 +140,7 @@ test('generates previews, copies, cancels export, and invalidates changed input/
     .first()
     .uncheck();
   await expect(page.getByRole('button', { name: 'Copy JSON' })).toBeDisabled();
-  await expect(
-    page.getByRole('button', { name: 'Export selected' }),
-  ).toBeDisabled();
+  await expect(page.locator('#export')).toBeDisabled();
   await page.getByRole('button', { name: 'Generate edge cases' }).click();
   await expect(page.getByText('3 files', { exact: true })).toBeVisible();
   await page
@@ -411,7 +413,74 @@ test('generated virtual files are immediately visible, keyboard browsable and co
   await expect(
     page.getByRole('heading', { name: '002-null.json', exact: true }),
   ).toBeVisible();
+  await expect(page.locator('#export')).toBeDisabled();
+});
+
+test('Clear removes input, fields and generated output and disables copy/export', async ({
+  page,
+}) => {
+  const input = page.getByLabel('Example JSON', { exact: true });
+  await input.fill('{"email":"alex@example.com"}');
+  await page.getByRole('checkbox', { name: '/email', exact: true }).check();
+  await page.getByRole('button', { name: 'Generate edge cases' }).click();
+  await expect(page.getByText('4 files', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Clear', exact: true }).click();
+  await expect(input).toHaveValue('');
+  await expect(input).toBeFocused();
+  await expect(page.locator('#field-count')).toHaveText('0/0');
+  await expect(page.locator('#result-count')).toHaveText('0 files');
+  await expect(page.locator('.case-row')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Copy JSON' })).toBeDisabled();
+  await expect(page.locator('#export')).toBeDisabled();
   await expect(
-    page.getByRole('button', { name: 'Export selected' }),
+    page.getByRole('button', { name: 'Generate edge cases' }),
   ).toBeDisabled();
+  await expect(page.locator('#input-error')).toBeEmpty();
+  await expect(page.getByRole('status')).toContainText('Input cleared');
+  await input.fill('{"name":"Alex"}');
+  await expect(
+    page.getByRole('checkbox', { name: '/name', exact: true }),
+  ).toBeVisible();
+});
+
+test('Clear cancels a pending preparation without allowing its reply to restore input', async ({
+  page,
+}) => {
+  const input = page.getByLabel('Example JSON', { exact: true });
+  await input.fill('{name: "Alex"}');
+  await page.evaluate(() => {
+    window.pausePreparation = true;
+    window.addEventListener('message', ({ data }) => {
+      if (data.type === 'source') window.delayedSourceReceived = true;
+    });
+  });
+  await page.getByRole('button', { name: 'Format JSON', exact: true }).click();
+  await expect(
+    page.getByRole('button', { name: 'Format JSON', exact: true }),
+  ).toBeDisabled();
+  await page.getByRole('button', { name: 'Clear', exact: true }).click();
+  await page.evaluate(() => {
+    window.pausePreparation = false;
+  });
+  await page.waitForFunction(() => window.delayedSourceReceived);
+  await expect(input).toHaveValue('');
+  await expect(page.locator('#field-count')).toHaveText('0/0');
+  await expect(page.getByRole('status')).toContainText('Input cleared');
+});
+
+test('Clear stays empty after an earlier typing timer and after focus leaves input', async ({
+  page,
+}) => {
+  await page.clock.install();
+  const input = page.getByLabel('Example JSON', { exact: true });
+  await input.fill('{"email":"alex@example.com"}');
+  // Clear before the typing debounce has elapsed, then let every timer finish.
+  await page.getByRole('button', { name: 'Clear', exact: true }).click();
+  await page.clock.runFor(1000);
+  await expect(page.getByRole('status')).toContainText('Input cleared');
+  await expect(page.locator('#input-error')).toBeEmpty();
+  await page.getByRole('button', { name: 'Try sample JSON' }).focus();
+  await page.clock.runFor(500);
+  await expect(page.locator('#input-error')).toBeEmpty();
+  await expect(page.getByRole('status')).toContainText('Input cleared');
 });

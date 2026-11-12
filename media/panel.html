@@ -9,14 +9,14 @@
 </head>
 <body>
   <main>
-    <header class="page-header"><div><p class="eyebrow">JSON EDGE <span class="version">0.1.6</span></p><h1>One good example.<br />More ways to test it.</h1><p class="subtitle">Create labelled input variations. Decide what your application should accept.</p></div><span class="local-badge">Local · no uploads</span></header>
+    <header class="page-header"><div><p class="eyebrow">JSON EDGE <span class="version">0.1.9</span></p><h1>One good example.<br />More ways to test it.</h1><p class="subtitle">Create labelled input variations. Decide what your application should accept.</p></div><span class="local-badge">Local · no uploads</span></header>
     <div id="status" class="status" role="status" aria-live="polite">Paste a JSON object to begin. No file required.</div>
     <div class="workspace">
       <section class="card input-card" aria-labelledby="input-heading">
         <div class="section-heading"><h2 id="input-heading"><span class="step">1</span> Your example</h2><button id="load-editor" class="secondary">Load from Active Editor</button></div>
         <label for="json-input">Example JSON</label><p class="hint" id="input-hint">Paste a request body, response, or fixture. JSON or object snippets. Use Format JSON to quote keys and replace expressions. Enter indents automatically. Maximum 1 MiB.</p>
         <textarea id="json-input" spellcheck="false" aria-describedby="input-hint input-error" placeholder='{"name":"Alex","email":"alex@example.com"}'></textarea>
-        <div class="input-tools"><button id="format-input" class="secondary">Format JSON</button><button id="dummy-input" class="secondary" aria-describedby="dummy-hint">Fill dummy values</button></div>
+        <div class="input-tools"><button id="format-input" class="secondary">Format JSON</button><button id="dummy-input" class="secondary" aria-describedby="dummy-hint">Fill dummy values</button><button id="clear-input" class="secondary">Clear</button></div>
         <p id="dummy-hint" class="hint">Dummy values fill empty strings/nulls using field-name hints. Review inferred values and types.</p>
         <p id="input-note" class="hint" aria-live="polite"></p>
         <p id="input-error" class="error" role="alert"></p>

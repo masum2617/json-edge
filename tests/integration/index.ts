@@ -56,7 +56,7 @@ export async function run(): Promise<void> {
   await extension.activate();
   const commands = await vscode.commands.getCommands(true);
   assert.ok(commands.includes('jsonEdge.open'));
-  await vscode.commands.executeCommand('workbench.view.extension.jsonEdge');
+  assert.ok(commands.includes('jsonEdge.toggle'));
   const panelTabs = () =>
     vscode.window.tabGroups.all
       .flatMap((group) => group.tabs)
@@ -65,23 +65,44 @@ export async function run(): Promise<void> {
           tab.input instanceof vscode.TabInputWebview &&
           tab.input.viewType.includes('jsonEdge'),
       );
-  async function waitForGenerator(): Promise<void> {
+  async function waitForPanelCount(count: number): Promise<void> {
     const deadline = Date.now() + 5000;
-    while (!panelTabs().length && Date.now() < deadline)
+    while (panelTabs().length !== count && Date.now() < deadline)
       await new Promise((resolve) => setTimeout(resolve, 25));
-    assert.equal(
-      panelTabs().length,
-      1,
-      'Activity Bar activation opens exactly one generator without a second action',
-    );
+    assert.equal(panelTabs().length, count, `Expected ${count} generator tabs`);
   }
-  await waitForGenerator();
-  await vscode.commands.executeCommand('jsonEdge.open');
-  await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
-  await vscode.commands.executeCommand('workbench.view.extension.jsonEdge');
-  await waitForGenerator();
-  await vscode.commands.executeCommand('jsonEdge.open');
-  await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+  // Both placements are primary sidebars; switching sides must not break toggling.
+  const sidebar = vscode.workspace.getConfiguration('workbench.sideBar');
+  const originalLocation = sidebar.get<string>('location');
+  for (const location of ['left', 'right']) {
+    await sidebar.update(
+      'location',
+      location,
+      vscode.ConfigurationTarget.Global,
+    );
+    await vscode.commands.executeCommand(
+      location === 'left'
+        ? 'workbench.view.extension.jsonEdge'
+        : 'jsonEdge.toggle',
+    );
+    await waitForPanelCount(1);
+    // Await panel initialization, then exercise the exact command used by the icon.
+    // Native visibility routing is additionally checked by the real-editor smoke.
+    await vscode.commands.executeCommand('jsonEdge.open');
+    await vscode.commands.executeCommand('jsonEdge.toggle');
+    await waitForPanelCount(0);
+    await vscode.commands.executeCommand('jsonEdge.toggle');
+    await waitForPanelCount(1);
+    await vscode.commands.executeCommand('jsonEdge.open');
+    await waitForPanelCount(1); // Open reveals; it must not toggle or duplicate.
+    await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+    await waitForPanelCount(0);
+  }
+  await sidebar.update(
+    'location',
+    originalLocation,
+    vscode.ConfigurationTarget.Global,
+  );
 
   const original = '{"email":"integration-fixture@example.test","age":25}';
   const document = await vscode.workspace.openTextDocument({

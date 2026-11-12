@@ -38,8 +38,8 @@ for (const file of [
   'docs/USER-GUIDE.md',
   'docs/PRIVACY.md',
   'docs/PUBLISHING.md',
-  'docs/media/json-edge-demo.gif',
-  'docs/media/json-edge-demo.mp4',
+  'docs/media/jsonedgedemo.mp4',
+  'docs/media/demo-manifest.json',
   'docs/images/marketplace-input.png',
   'docs/images/marketplace-preview.png',
   'docs/images/marketplace-snippets.png',
@@ -63,11 +63,34 @@ function publicTextFiles(dir) {
 for (const file of ['README.md', 'CONTRIBUTING.md', ...publicTextFiles('docs')])
   if (privateExample.test(fs.readFileSync(file, 'utf8')))
     errors.push(`Replace project-specific examples in ${file}.`);
+const demoFiles = fs
+  .readdirSync('docs/media')
+  .filter((name) => /\.(gif|mp4|webm|mov)$/i.test(name));
+if (demoFiles.length !== 1 || demoFiles[0] !== 'jsonedgedemo.mp4')
+  errors.push(
+    'Use only the owner-provided docs/media/jsonedgedemo.mp4 for the demo.',
+  );
 if (
-  fs.existsSync('docs/media/json-edge-demo.gif') &&
-  fs.statSync('docs/media/json-edge-demo.gif').size > 5 * 1024 * 1024
-)
-  errors.push('Optimize the README GIF to 5 MiB or less.');
+  fs.existsSync('docs/media/demo-manifest.json') &&
+  fs.existsSync('docs/media/jsonedgedemo.mp4')
+) {
+  const metadata = JSON.parse(
+    fs.readFileSync('docs/media/demo-manifest.json', 'utf8'),
+  );
+  const video = fs.readFileSync('docs/media/jsonedgedemo.mp4');
+  const hash = require('node:crypto')
+    .createHash('sha256')
+    .update(video)
+    .digest('hex');
+  if (
+    metadata.file !== 'jsonedgedemo.mp4' ||
+    metadata.bytes !== video.length ||
+    metadata.sha256 !== hash
+  )
+    errors.push(
+      'Update the demo manifest: its filename, size or checksum does not match the video.',
+    );
+}
 if (errors.length) {
   console.error(
     'Release preparation still needs:\n' +

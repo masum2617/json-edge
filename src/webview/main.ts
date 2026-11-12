@@ -20,6 +20,7 @@ declare function acquireVsCodeApi(): {
   const input = element<HTMLTextAreaElement>('json-input');
   const formatButton = element<HTMLButtonElement>('format-input');
   const dummyButton = element<HTMLButtonElement>('dummy-input');
+  const clearButton = element<HTMLButtonElement>('clear-input');
   const search = element<HTMLInputElement>('field-search');
   const generate = element<HTMLButtonElement>('generate');
   const copy = element<HTMLButtonElement>('copy');
@@ -60,6 +61,9 @@ declare function acquireVsCodeApi(): {
       pendingPreparation;
     formatButton.disabled = pendingPreparation || !input.value.trim();
     dummyButton.disabled = pendingPreparation || !input.value.trim();
+    // Clear can cancel a pending import/format even while other input tools wait.
+    clearButton.disabled =
+      !input.value.length && !pendingPreparation && !cases.length;
     element<HTMLButtonElement>('load-editor').disabled = pendingPreparation;
     copy.disabled = !fresh || !activeCase;
     exportButton.disabled = !fresh || !selectedCases.size;
@@ -90,6 +94,8 @@ declare function acquireVsCodeApi(): {
   }
   function analyze(): void {
     clearTimeout(timer);
+    // Empty input is a valid starting/cleared UI state, not a validation error.
+    if (!input.value.trim()) return;
     if (new TextEncoder().encode(input.value).length > 1024 * 1024) {
       valid = false;
       element('input-error').textContent =
@@ -100,6 +106,7 @@ declare function acquireVsCodeApi(): {
     send({ type: 'analyze', revision, text: input.value });
   }
   function inputChanged(): void {
+    clearTimeout(timer); // Cancel the previous keystroke before scheduling another.
     pendingPreparation = false;
     element('input-note').textContent = '';
     invalidate();
@@ -180,7 +187,9 @@ declare function acquireVsCodeApi(): {
     }
     controls();
   }
-  function renderCases(): void {
+  function renderCases(
+    emptyMessage = 'No applicable cases. Choose different fields or variations.',
+  ): void {
     const list = element('cases');
     list.replaceChildren();
     for (const [index, item] of cases.entries()) {
@@ -236,8 +245,7 @@ declare function acquireVsCodeApi(): {
     if (!cases.length) {
       const message = document.createElement('li');
       message.className = 'empty';
-      message.textContent =
-        'No applicable cases. Choose different fields or variations.';
+      message.textContent = emptyMessage;
       list.append(message);
     }
     const selected = cases.find((item) => item.id === activeCase) ?? cases[0];
@@ -308,6 +316,25 @@ declare function acquireVsCodeApi(): {
   element('load-editor').addEventListener('click', () => prepare('loadEditor'));
   formatButton.addEventListener('click', () => prepare('format'));
   dummyButton.addEventListener('click', () => prepare('dummy'));
+  clearButton.addEventListener('click', () => {
+    input.value = '';
+    search.value = '';
+    // Advance the revision so pending source/analysis/generation replies cannot
+    // put cleared data back. The source document itself is never edited.
+    inputChanged();
+    clearTimeout(timer); // An intentionally empty input is an empty state, not an error.
+    cases = [];
+    selectedCases.clear();
+    activeCase = undefined;
+    renderCases('Your generated JSON files will appear here.');
+    element('input-summary').textContent = 'Object input · arrays stay whole';
+    element('result-count').textContent = '0 files';
+    element('result-state').textContent = 'In-memory previews';
+    element('result-summary').textContent =
+      'Generate to see JSON files here. Click a filename to preview and copy its contents.';
+    status('Input cleared. Paste a JSON object or load one from the editor.');
+    input.focus();
+  });
   element('sample').addEventListener('click', () => {
     input.value = JSON.stringify(
       {

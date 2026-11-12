@@ -27,6 +27,7 @@ const manifest = require('../package.json');
       'telemetry.telemetryLevel': 'off',
       'update.mode': 'none',
       'workbench.colorTheme': 'Default Dark Modern',
+      'workbench.sideBar.location': 'right',
       'window.zoomLevel': 0,
       'chat.disableAIFeatures': true,
     }),
@@ -109,20 +110,23 @@ const manifest = require('../package.json');
       .getByRole('tab', { name: /JSON Edge/ });
     await activity.click();
     let frame;
-    await expect
-      .poll(
-        async () => {
-          for (const candidate of page.frames()) {
-            if (await candidate.locator('#json-input').count()) {
-              frame = candidate;
-              return true;
+    async function bindGenerator() {
+      await expect
+        .poll(
+          async () => {
+            for (const candidate of page.frames()) {
+              if (await candidate.locator('#json-input').count()) {
+                frame = candidate;
+                return true;
+              }
             }
-          }
-          return false;
-        },
-        { timeout: 20000 },
-      )
-      .toBe(true);
+            return false;
+          },
+          { timeout: 20000 },
+        )
+        .toBe(true);
+    }
+    await bindGenerator();
     await expect(frame.getByLabel('Example JSON', { exact: true })).toHaveValue(
       JSON.stringify(JSON.parse(original), null, 2),
     );
@@ -130,12 +134,42 @@ const manifest = require('../package.json');
     await frame.getByRole('button', { name: 'Generate edge cases' }).click();
     await expect(frame.getByText('4 files', { exact: true })).toBeVisible();
     await expect(page.locator('.part.sidebar')).toBeHidden();
-    // A repeated click reveals the same panel and preserves its generated files.
+    await frame.getByRole('button', { name: 'Clear', exact: true }).click();
+    await expect(frame.getByLabel('Example JSON', { exact: true })).toHaveValue(
+      '',
+    );
+    await expect(frame.getByText('0 files', { exact: true })).toBeVisible();
+    await expect(
+      frame.getByRole('button', { name: 'Copy JSON' }),
+    ).toBeDisabled();
+    await frame
+      .getByRole('button', { name: 'Load from Active Editor' })
+      .click();
+    await expect(frame.getByLabel('Example JSON', { exact: true })).toHaveValue(
+      JSON.stringify(JSON.parse(original), null, 2),
+    );
+    await frame.getByRole('checkbox', { name: '/email', exact: true }).check();
+    await frame.getByRole('button', { name: 'Generate edge cases' }).click();
+    await expect(frame.getByText('4 files', { exact: true })).toBeVisible();
+    // Repeated icon clicks close and reopen the generator; closing clears its session.
     await activity.click();
+    await expect(
+      page.locator('.tab').filter({ hasText: 'JSON Edge' }),
+    ).toHaveCount(0);
     await expect(page.locator('.part.sidebar')).toBeHidden();
+    // VS Code intentionally ignores Activity Bar clicks within 300 ms:
+    // microsoft/vscode src/vs/workbench/browser/parts/paneCompositeBar.ts.
+    // This pause separates user clicks; state assertions above handle readiness.
+    await page.waitForTimeout(350);
+    await activity.click();
+    await bindGenerator();
     await expect(
       page.locator('.tab').filter({ hasText: 'JSON Edge' }),
     ).toHaveCount(1);
+    await expect(frame.getByText('0 files', { exact: true })).toBeVisible();
+    await frame.getByRole('checkbox', { name: '/email', exact: true }).check();
+    await frame.getByRole('button', { name: 'Generate edge cases' }).click();
+    await expect(frame.getByText('4 files', { exact: true })).toBeVisible();
     await frame
       .getByRole('button', {
         name: '002-null.json — /email — Null value',
@@ -297,7 +331,7 @@ const manifest = require('../package.json');
       ),
     );
     console.log(
-      'Real installed VSIX UI: editor load, generate, preview, copy, folder dialog, export, one-click Activity Bar launch and repeated-click reuse, selected JavaScript snippets, dummy values, source preservation passed.',
+      'Real installed VSIX UI: editor load, generate, preview, copy, folder dialog, export, one-click Activity Bar launch and repeated-click closing/reopening, selected JavaScript snippets, dummy values, source preservation passed.',
     );
   } finally {
     if (browser) await browser.close();

@@ -2,9 +2,7 @@
 
 Turn one JSON example into labelled **missing**, **null**, **empty**, and **wrong-type** inputs in VS Code. Preview each generated file and copy its JSON without leaving the editor.
 
-![JSON Edge demo: select email, generate four variations, preview and copy JSON](docs/media/json-edge-demo.gif)
-
-[Watch or download the MP4 demo](docs/media/json-edge-demo.mp4) · [User guide](docs/USER-GUIDE.md) · [Report an issue](https://github.com/masum2617/json-edge/issues)
+**[▶ Watch the JSON Edge demo video](https://github.com/masum2617/json-edge/blob/main/docs/media/jsonedgedemo.mp4)** · [User guide](docs/USER-GUIDE.md) · [Report an issue](https://github.com/masum2617/json-edge/issues)
 
 ## What it does
 
@@ -12,7 +10,7 @@ Turn one JSON example into labelled **missing**, **null**, **empty**, and **wron
 - Supports nested object fields and treats arrays as complete values.
 - Shows a clickable list of virtual JSON files, with explanations and **Copy JSON**.
 - Converts selected JavaScript object snippets into JSON without executing code.
-- Provides **Format JSON**, indentation on Enter, and optional **Fill dummy values**.
+- Provides **Format JSON**, indentation on Enter, optional **Fill dummy values**, and **Clear**.
 - Offers optional disk export when you want saved fixtures.
 - Works locally with no API key, account, backend, telemetry, or network requests from the extension.
 
@@ -25,6 +23,8 @@ These are candidate inputs, not test verdicts. Your application decides whether 
 3. Select fields and variations, then click **Generate edge cases**.
 4. Click a filename such as `002-null.json` to inspect it.
 5. Click **Copy JSON** and use the payload in your API client or existing tests.
+
+Clicking the Activity Bar icon again closes the generator and clears its session; click again to reopen. **JSON Edge: Open** reveals an existing panel without closing it. **Clear**, beside **Fill dummy values**, resets panel input and results without editing your source document.
 
 Generated files stay in the panel's memory. Generating, previewing and copying do not create folders. To save copies, expand **Save files to disk (optional)**. Closing the panel clears the session.
 
@@ -109,7 +109,3 @@ Open the project in VS Code and press **F5**. See the [development guide](docs/D
 - [Step-by-step Marketplace publishing](docs/PUBLISHING.md)
 
 MIT licensed. See [LICENSE](LICENSE).
-
-## Moving from JSON Twist
-
-JSON Edge is published as `masum-hasan.json-edge`. If you installed JSON Twist (`masum-hasan.json-twist`), install JSON Edge explicitly; it is a separate Marketplace listing. You can then uninstall JSON Twist.

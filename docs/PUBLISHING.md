@@ -29,7 +29,7 @@ Review `package.json`: version, publisher, description, Testing category, reposi
 ## 3. Review the public content and media
 
 - Read README, user guide, privacy notes and changelog. Examples should use generic profile fields such as name, email and age.
-- Play the GIF and MP4, and open all four numbered Marketplace screenshots listed in [Demo assets](release/DEMO.md).
+- Play the owner-provided MP4, and open all four numbered Marketplace screenshots listed in [Demo assets](release/DEMO.md).
 - The images must show the actual current app, with synthetic values only. Verify text is readable at normal size.
 - The README uses neutral installation instructions without claiming a live listing. Add the actual listing/install link only after publication, and record the actual release date in the changelog.
 
@@ -37,7 +37,7 @@ The SVG is the Activity Bar icon. The Marketplace icon is the separate PNG in `m
 
 ## 4. Commit and push the release files to GitHub
 
-Marketplace README links and image URLs are rewritten to the public repository. Assets must actually exist on `main` before uploading; bundling a local GIF alone does not make its rewritten public URL work.
+Marketplace README links and image URLs are rewritten to the public repository. Assets must actually exist on `main` before uploading; bundling a local video alone does not make its rewritten public URL work.
 
 Review changes first:
 
@@ -51,8 +51,7 @@ Commit the intended source, docs and media, then push them using your usual Git 
 
 Open these public URLs and confirm the media loads after pushing:
 
-- [GIF](https://raw.githubusercontent.com/masum2617/json-edge/main/docs/media/json-edge-demo.gif)
-- [MP4](https://github.com/masum2617/json-edge/blob/main/docs/media/json-edge-demo.mp4)
+- [Demo video](https://github.com/masum2617/json-edge/blob/main/docs/media/jsonedgedemo.mp4)
 - [Input screenshot](https://raw.githubusercontent.com/masum2617/json-edge/main/docs/images/marketplace-input.png)
 - [Preview screenshot](https://raw.githubusercontent.com/masum2617/json-edge/main/docs/images/marketplace-preview.png)
 
@@ -87,12 +86,12 @@ For subsequent releases, use the existing extension's update action and a higher
 
 ## 7. Verify the live listing
 
-Open the actual Marketplace listing and confirm its description, PNG icon, GIF rendering, screenshots and links. Install from Marketplace in a clean VS Code profile and test the complete workflow again. Update the README with the real listing URL only after it exists. Optionally create a GitHub release containing the exact published VSIX and MP4.
+Open the actual Marketplace listing and confirm its description, PNG icon, demo video link, screenshots and links. Install from Marketplace in a clean VS Code profile and test the complete workflow again. Update the README with the real listing URL only after it exists. Optionally create a GitHub release containing the exact published VSIX and MP4.
 
-If animation does not render in the listing, keep the static preview image visible and retain the MP4 link; do not replace real captures with a mockup. Record the actual release version/date and successful CI results in the release notes.
+The video link opens the hosted recording; inline Marketplace MP4 playback is not assumed. Record the actual release version/date and successful CI results in the release notes.
 
 ## What is prepared vs. still yours to complete
 
-Prepared locally: public docs, generic examples, GIF/MP4, screenshots, repository metadata, identity/media gate, package tooling and local verification.
+Prepared locally: public docs, generic examples, the owner-provided MP4, screenshots, repository metadata, identity/media gate, package tooling and local verification.
 
 Publisher creation and manifest configuration are complete. Before publication, confirm public assets and remote CI, install/test the publisher-specific VSIX, upload it, and verify its live listing. No account creation, Git push or Marketplace upload is performed by the preparation scripts.

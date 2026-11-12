@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.9
+
+- Replace the previous generated demo media with the owner-provided JSON Edge video.
+- Link the single demo video prominently from the Marketplace overview.
+
+## 0.1.8
+
+- Toggle the generator closed/open from its Activity Bar icon; Open still reveals an existing panel.
+- Add Clear beside Fill dummy values to reset the input, fields and generated results safely.
+- Ignore pending preparation replies after Clear, and keep copy/export disabled until new cases are generated.
+
+## 0.1.7
+
+- Simplify the Marketplace overview documentation.
+
 ## 0.1.6
 
 - Rename the product to JSON Edge - The Edge Case Maker.

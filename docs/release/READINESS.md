@@ -6,7 +6,7 @@ JSON Twist (`masum-hasan.json-twist`) remains a separate previous Marketplace li
 
 ## Validation
 
-Local source checks passed (29 Node tests), along with 11 browser UI tests. The renamed package installed and passed real VS Code integration checks. Fresh screenshots show the actual installed 0.1.6 UI, and the 12-second GIF/MP4 contains six real UI states with readable holds. The exact VSIX manifest, archive integrity and local resource paths were checked. Rebuild and retest after subsequent changes.
+Local source checks passed (29 Node tests), along with 11 browser UI tests. The renamed package installed and passed real VS Code integration checks. Fresh screenshots show the actual installed 0.1.6 UI, and that release used generated demo captures. The current demo has since been replaced by the owner-provided `jsonedgedemo.mp4`; see `DEMO.md` for its verification. The exact VSIX manifest, archive integrity and local resource paths were checked. Rebuild and retest after subsequent changes.
 
 The previous Windows launcher fix supports both legacy and versioned VS Code resource directories. CI should validate this release on Linux, macOS and Windows before publication. A previous version's successful run does not establish the renamed release's result.
 
