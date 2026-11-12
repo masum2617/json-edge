@@ -11,5 +11,42 @@
   "videoCodec": "H.264",
   "audioCodec": "AAC",
   "verification": "All video and audio streams decoded successfully with FFmpeg.",
-  "publicUrl": "https://github.com/masum2617/json-edge/blob/main/docs/media/jsonedgedemo.mp4"
+  "publicUrl": "https://github.com/masum2617/json-edge/blob/main/docs/media/jsonedgedemo.mp4",
+  "gif": {
+    "file": "jsonedgedemo.gif",
+    "bytes": 38653324,
+    "sha256": "aaf4ada8e318247014a293f0c62812860b6a4b033f77c95c0cabf6fca77c8a3f",
+    "width": 1920,
+    "height": 1080,
+    "frames": 1241,
+    "durationMilliseconds": 41360,
+    "sourceFps": 30,
+    "averagePlaybackFps": 30.004835589941973,
+    "frameDelaysMilliseconds": [30, 40],
+    "loop": 0,
+    "conversion": "Full source resolution and every frame; global 256-entry palette, Sierra dithering. GIF timing uses 10 ms units, alternating 30/40 ms to preserve approximately 30 fps. GIF has no audio."
+  },
+  "screenshots": [
+    {
+      "file": "marketplace-overview.png",
+      "width": 2058,
+      "height": 1716,
+      "bytes": 268999,
+      "sha256": "bd13269f851209fcaf78eb412efb1297dd18fb3de7cc10c308e67cf3c5d90c3e"
+    },
+    {
+      "file": "marketplace-results.png",
+      "width": 1920,
+      "height": 844,
+      "bytes": 96296,
+      "sha256": "02d89fa27f4fdb109bbf697cd39bb66f75643bde5132503e656aafcfb904af0b"
+    },
+    {
+      "file": "marketplace-variations.png",
+      "width": 818,
+      "height": 1310,
+      "bytes": 106699,
+      "sha256": "114afaad42a1098e640e902a1a62295bf70a4fa66c258b0a3498325ff335f630"
+    }
+  ]
 }

@@ -24,11 +24,13 @@ The host entry point registers commands and the Activity Bar launcher. The panel
 
 Start with [Extension basics](learning/01-extension-basics.md), then follow the seven numbered learning chapters. Important exported functions have JSDoc; comments explain isolation, security boundaries and VS Code-specific behavior.
 
-## Public demo video
+## Public demo media
 
-The owner-provided `docs/media/jsonedgedemo.mp4` is the only demonstration video. It is copied without editing and linked prominently from the README. The previous automatic demo recorder was removed to avoid overwriting the selected recording. See [Demo video details](release/DEMO.md).
+The owner-provided `docs/media/jsonedgedemo.mp4` is unchanged. Its full-resolution, frame-preserving `jsonedgedemo.gif` is embedded in the README; the original video remains linked. The three selected PNG screenshots replace the earlier captures. See [conversion details](release/DEMO.md) and [screenshots](images/README.md).
 
-Keep the video public on GitHub main before publishing a VSIX that links to it. Update its SHA-256 and metadata in `docs/media/demo-manifest.json` when deliberately replacing it. The MP4 is hosted rather than bundled in the installed extension.
+GIF supports a limited colour palette and 10 ms timing units, so approximately 30 fps playback is preserved with alternating 30/40 ms delays. Verify frame count, duration, dimensions and first/middle/last frames after conversion. Update the checksums and metadata in `docs/media/demo-manifest.json` when replacing media.
+
+The GIF and MP4 are hosted on GitHub main and excluded from the installed VSIX, keeping the installer small. The old automatic recorder remains removed so it cannot overwrite these selected assets.
 
 The local optional smoke script `scripts/smoke-editor.cjs` also checks real editor selection, copy/export, one-click launching and source preservation. It is intended for the available macOS development machine.
 

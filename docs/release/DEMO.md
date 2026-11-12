@@ -1,20 +1,29 @@
-# JSON Edge demo video
+# JSON Edge demo media
 
-The only demonstration video is [jsonedgedemo.mp4](https://github.com/masum2617/json-edge/blob/main/docs/media/jsonedgedemo.mp4), supplied by the project owner on 2026-11-12.
+The owner-supplied `docs/media/jsonedgedemo.mp4` is preserved unchanged. Its derived `jsonedgedemo.gif` is embedded near the top of the Marketplace README so the demonstration is visible without opening a separate video page. The original MP4 remains linked for full-colour video and audio.
 
-The source recording is copied byte-for-byte into `docs/media/jsonedgedemo.mp4`. It has not been trimmed, transcoded or converted to an animation. The previous generated demo files and automatic demo recorder have been removed.
+## Verified conversion
 
-## Verified media
+- Full source resolution: **1920 × 1080**; no resizing or cropping.
+- All **1,241 source frames** retained; no frame dropping or trimming.
+- Source rate: **30 fps**. GIF uses centiseconds, so alternating 30/40 ms frame delays preserve approximately 30 fps, with 41.36 seconds total playback.
+- GIF colour is palette-limited (up to 256 entries); global palette generation and Sierra dithering preserve readable detail. Identical MP4 colour quality cannot be represented in GIF.
+- GIF has no audio and loops continuously. Use the unchanged original MP4 for audio.
+- Actual sizes, checksums and source/screenshot metadata are in `docs/media/demo-manifest.json`.
 
-- Duration: approximately 41.37 seconds.
-- Resolution: 1920 × 1080 at 30 fps.
-- Video/audio: H.264 and AAC.
-- All streams decoded successfully. File size and SHA-256 are recorded in `docs/media/demo-manifest.json`.
+The full-resolution animation is large. Both GIF and MP4 are hosted in the public repository and excluded from the runtime VSIX to keep extension installation small. The README uses HTTPS links to the hosted assets. Push the assets before publishing the new package; inspect the real Marketplace/VS Code details page afterward.
 
-## Marketplace presentation
+## Selected screenshots
 
-The root README contains a prominent **Watch the JSON Edge demo video** link to the public GitHub file page. Push the recording to `main` before publishing the updated VSIX so that the link resolves publicly. The GitHub page provides the hosted video view; inline MP4 playback within the Marketplace or VS Code README is not assumed.
+The three owner-selected PNGs replace all prior Marketplace screenshots. They are copied byte-for-byte, with no image editing. See [screenshot index](../images/README.md). Empty-state captures are labelled as such; the animation shows the actual populated workflow.
 
-The video is hosted in the repository and excluded from the runtime VSIX by `.vscodeignore`, avoiding an extra video download on every extension installation. Packaging a local video alone does not publish its public link.
+## Reproduce the GIF
 
-Future demo changes should replace this owner-selected video deliberately and update its manifest. Do not regenerate older demo assets. Static documentation screenshots remain separate from the demonstration video.
+Use FFmpeg in two passes to avoid buffering the entire full-resolution recording in memory:
+
+```sh
+ffmpeg -i docs/media/jsonedgedemo.mp4 -vf "palettegen=max_colors=256:stats_mode=diff" -frames:v 1 palette.png
+ffmpeg -i docs/media/jsonedgedemo.mp4 -i palette.png -lavfi "paletteuse=dither=sierra2_4a:diff_mode=rectangle" -fps_mode passthrough -loop 0 docs/media/jsonedgedemo.gif
+```
+
+Do not add scaling, frame-rate reduction or trimming when reproducing this owner-requested conversion. The palette is a temporary development artifact; keep it outside the repository. FFmpeg is not an extension runtime dependency.

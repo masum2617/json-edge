@@ -1,6 +1,6 @@
 # 6. Packaging and publishing
 
-A VSIX is the installable extension archive. Run `npm run package` to compile and create `artifacts/json-edge-0.1.6.vsix`. `npm run package:list` lists included files. The ignore file excludes sources/tests/tooling and the large MP4 companion; it keeps the compiled host/UI, runtime libraries, PNG/SVG icons, public docs and current screenshots. The README links to the owner-provided MP4 hosted on GitHub.
+A VSIX is the installable extension archive. Run `npm run package` to compile and create `artifacts/json-edge-0.1.10.vsix`. `npm run package:list` lists included files. The ignore file excludes sources/tests/tooling and the hosted GIF and MP4; it keeps the compiled host/UI, runtime libraries, PNG/SVG icons, public docs and current screenshots. The README embeds the derived GIF and links to the original MP4; both are hosted on GitHub.
 
 `package.json` uses the public repository and main branch for README link rewriting. Its publisher remains `local-development` until the owner creates a Marketplace publisher. `npm run package:release` refuses that placeholder through `scripts/release-check.cjs`; a local package is not proof of Marketplace readiness.
 

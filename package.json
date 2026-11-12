@@ -2,7 +2,7 @@
   "name": "json-edge",
   "displayName": "JSON Edge - The Edge Case Maker",
   "description": "Create JSON edge-case inputs with missing fields, nulls, empty values and wrong types. Preview and copy locally.",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "publisher": "masum-hasan",
   "license": "MIT",
   "engines": {

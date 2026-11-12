@@ -25,6 +25,7 @@ playwright.config.mjs
 .gitignore
 
 docs/media/*.mp4
+docs/media/*.gif
 docs/images/vscode-*.png
 
 docs/release/READINESS.md

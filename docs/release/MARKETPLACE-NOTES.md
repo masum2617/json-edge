@@ -11,7 +11,7 @@ Verified 2026-11-10 against Microsoft documentation and Microsoft-maintained `vs
 ## README and media
 
 - Root README content becomes the listing. Public GitHub repository metadata enables relative-link rewriting; `main` is the default branch. `--githubBranch main` can make the choice explicit. Keep linked docs/media available publicly on that branch. [Publishing guide](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#marketplace-integration)
-- The current presentation uses only the owner-provided `docs/media/jsonedgedemo.mp4`, linked prominently from README to its public GitHub file page. Packaging accepts video link rewriting but does not establish inline playback support in Marketplace or VS Code. Do not promise an embedded player. [Microsoft vsce Markdown processor](https://github.com/microsoft/vscode-vsce/blob/main/src/package.ts)
+- The current presentation embeds `docs/media/jsonedgedemo.gif`, derived from the owner-provided MP4 with all source frames and full resolution, and links to the original video. Packaging accepts video link rewriting but does not establish inline playback support in Marketplace or VS Code. Do not promise an embedded player. [Microsoft vsce Markdown processor](https://github.com/microsoft/vscode-vsce/blob/main/src/package.ts)
 - Remove scaffold README text: `vsce` explicitly rejects the generator placeholder. Product copy should explain real inputs, outputs, commands and limitations; keep contributor/release instructions in separate docs. [Microsoft vsce README check](https://github.com/microsoft/vscode-vsce/blob/main/src/package.ts)
 
 ## Packaging and first publication

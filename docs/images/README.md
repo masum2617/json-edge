@@ -1,10 +1,9 @@
 # JSON Edge screenshots
 
-These PNGs show the actual installed desktop extension, using synthetic profile data only. They are embedded or linked in the public README.
+These are the three original PNG images selected by the owner on 2026-11-12. They have been copied without cropping, resizing or pixel edits. They show the interface before input/generation; the animation demonstrates the working flow.
 
-1. [Open beside an editor](marketplace-editor.png) — the Activity Bar icon opens the generator directly on the right.
-2. [Choose a field and variations](marketplace-input.png) — a name/email/age profile and selected email property.
-3. [Preview generated JSON](marketplace-preview.png) — clickable virtual files and the selected null-value payload.
-4. [Convert and fill a snippet](marketplace-snippets.png) — generic profile properties with editable dummy values.
+1. [Generator overview](marketplace-overview.png) — JSON input, load action, formatting/dummy/Clear controls and variation selection.
+2. [Results panel](marketplace-results.png) — empty generated-file list, JSON preview, Copy JSON and optional export.
+3. [Variation controls](marketplace-variations.png) — search, field selection, the four mutations and Generate.
 
-For the demonstration, watch the [owner-provided video](https://github.com/masum2617/json-edge/blob/main/docs/media/jsonedgedemo.mp4).
+For motion, see the [animated demo](https://raw.githubusercontent.com/masum2617/json-edge/main/docs/media/jsonedgedemo.gif) or [original MP4](https://github.com/masum2617/json-edge/blob/main/docs/media/jsonedgedemo.mp4).

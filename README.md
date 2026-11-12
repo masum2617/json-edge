@@ -2,6 +2,8 @@
 
 Turn one JSON example into labelled **missing**, **null**, **empty**, and **wrong-type** inputs in VS Code. Preview each generated file and copy its JSON without leaving the editor.
 
+![JSON Edge animated demo: load JSON, choose variations, preview and copy results](docs/media/jsonedgedemo.gif)
+
 **[▶ Watch the JSON Edge demo video](https://github.com/masum2617/json-edge/blob/main/docs/media/jsonedgedemo.mp4)** · [User guide](docs/USER-GUIDE.md) · [Report an issue](https://github.com/masum2617/json-edge/issues)
 
 ## What it does
@@ -28,9 +30,9 @@ Clicking the Activity Bar icon again closes the generator and clears its session
 
 Generated files stay in the panel's memory. Generating, previewing and copying do not create folders. To save copies, expand **Save files to disk (optional)**. Closing the panel clears the session.
 
-![JSON Edge input and field selection](docs/images/marketplace-input.png)
+![JSON Edge overview with JSON input and variation controls](docs/images/marketplace-overview.png)
 
-[More screenshots](docs/images/README.md) · [See snippet conversion](docs/images/marketplace-snippets.png)
+[View all three screenshots](docs/images/README.md)
 
 ## Example
 
@@ -49,7 +51,9 @@ Selecting `/email` produces these alternatives, with the other properties preser
 | Empty      | `"email": ""`   |
 | Wrong type | `"email": 123`  |
 
-![Generated virtual JSON files with a null-value preview](docs/images/marketplace-preview.png)
+![JSON Edge variation controls](docs/images/marketplace-variations.png)
+
+![JSON Edge results panel before generation](docs/images/marketplace-results.png)
 
 Nested fields use JSON Pointer paths, such as `/address/city`. Keys containing dots, slashes or tildes remain distinguishable. Results are deterministic; unchanged and duplicate outputs are skipped.
 

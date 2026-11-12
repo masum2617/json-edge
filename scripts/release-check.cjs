@@ -39,11 +39,11 @@ for (const file of [
   'docs/PRIVACY.md',
   'docs/PUBLISHING.md',
   'docs/media/jsonedgedemo.mp4',
+  'docs/media/jsonedgedemo.gif',
   'docs/media/demo-manifest.json',
-  'docs/images/marketplace-input.png',
-  'docs/images/marketplace-preview.png',
-  'docs/images/marketplace-snippets.png',
-  'docs/images/marketplace-editor.png',
+  'docs/images/marketplace-overview.png',
+  'docs/images/marketplace-results.png',
+  'docs/images/marketplace-variations.png',
 ]) {
   if (!fs.existsSync(file) || !fs.statSync(file).size)
     errors.push(`Missing public release asset: ${file}`);
@@ -66,9 +66,13 @@ for (const file of ['README.md', 'CONTRIBUTING.md', ...publicTextFiles('docs')])
 const demoFiles = fs
   .readdirSync('docs/media')
   .filter((name) => /\.(gif|mp4|webm|mov)$/i.test(name));
-if (demoFiles.length !== 1 || demoFiles[0] !== 'jsonedgedemo.mp4')
+if (
+  demoFiles.length !== 2 ||
+  !demoFiles.includes('jsonedgedemo.mp4') ||
+  !demoFiles.includes('jsonedgedemo.gif')
+)
   errors.push(
-    'Use only the owner-provided docs/media/jsonedgedemo.mp4 for the demo.',
+    'Use the owner-provided jsonedgedemo.mp4 and its derived jsonedgedemo.gif for the demo.',
   );
 if (
   fs.existsSync('docs/media/demo-manifest.json') &&
@@ -90,6 +94,47 @@ if (
     errors.push(
       'Update the demo manifest: its filename, size or checksum does not match the video.',
     );
+}
+const expectedScreenshots = [
+  'marketplace-overview.png',
+  'marketplace-results.png',
+  'marketplace-variations.png',
+];
+const actualScreenshots = fs
+  .readdirSync('docs/images')
+  .filter((name) => name.endsWith('.png'));
+if (
+  actualScreenshots.length !== 3 ||
+  actualScreenshots.some((name) => !expectedScreenshots.includes(name))
+)
+  errors.push('Keep exactly the three owner-selected Marketplace screenshots.');
+if (fs.existsSync('docs/media/demo-manifest.json')) {
+  const metadata = JSON.parse(
+    fs.readFileSync('docs/media/demo-manifest.json', 'utf8'),
+  );
+  const assets = [
+    { ...metadata.gif, file: 'docs/media/jsonedgedemo.gif' },
+    ...(metadata.screenshots ?? []).map((shot) => ({
+      ...shot,
+      file: path.join('docs/images', shot.file),
+    })),
+  ];
+  for (const asset of assets) {
+    if (!fs.existsSync(asset.file)) continue; // Required files are reported above.
+    const bytes = fs.readFileSync(asset.file);
+    const hash = require('node:crypto')
+      .createHash('sha256')
+      .update(bytes)
+      .digest('hex');
+    if (asset.bytes !== bytes.length || asset.sha256 !== hash)
+      errors.push(`Media checksum/size does not match: ${asset.file}`);
+  }
+  if (
+    metadata.gif?.frames !== metadata.frames ||
+    metadata.gif?.width !== metadata.width ||
+    metadata.gif?.height !== metadata.height
+  )
+    errors.push('The GIF must retain the source frame count and resolution.');
 }
 if (errors.length) {
   console.error(

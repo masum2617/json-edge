@@ -15,3 +15,7 @@ The previous Windows launcher fix supports both legacy and versioned VS Code res
 The GitHub repository and local project folder are renamed to `json-edge`, and the Git remote uses the new repository URL. Commit/push the intended changes and inspect the new CI run. Publish this package as a **new Visual Studio Code extension**, rather than uploading it as an update to JSON Twist. Confirm the new listing's name, publisher, version, demo, screenshots and installation.
 
 The release scripts validate local files and build the VSIX; they do not publish automatically.
+
+## Media update — 0.1.10
+
+The current media set uses the owner-provided MP4, its full-resolution frame-preserving GIF, and exactly three owner-selected PNG screenshots. All earlier screenshots are removed from the current tree. See DEMO.md and demo-manifest.json for conversion limits and verification.

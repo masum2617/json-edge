@@ -2,7 +2,7 @@
 
 ## Install a local VSIX
 
-Run **Extensions: Install from VSIX…** in VS Code, choose `json-edge-0.1.8.vsix`, then reload the window. Published releases can also be installed using the Marketplace listing’s Install button.
+Run **Extensions: Install from VSIX…** in VS Code, choose `json-edge-0.1.10.vsix`, then reload the window. Published releases can also be installed using the Marketplace listing’s Install button.
 
 JSON Edge uses `masum-hasan.json-edge`. JSON Twist (`masum-hasan.json-twist`) is a separate earlier listing. Install JSON Edge explicitly and uninstall JSON Twist if you no longer need it. Earlier local-development builds are also separate extensions.
 

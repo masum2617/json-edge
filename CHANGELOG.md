@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.10
+
+- Embed a full-resolution animated conversion of the owner-selected recording in the Marketplace overview.
+- Retain all source frames and approximately 30 fps playback timing; preserve the original MP4.
+- Replace previous screenshots with the three owner-selected images.
+
 ## 0.1.9
 
 - Replace the previous generated demo media with the owner-provided JSON Edge video.
